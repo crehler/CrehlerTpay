@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Basic configuration</title>
+        <title lang="de-DE">Grundlegende Einstellung</title>
+        <title lang="pl-PL">Podstawowa konfiguracja</title>
+
+        <input-field type="text">
+            <name>merchantId</name>
+            <label>Merchant ID</label>
+            <label lang="de-DE">Händler ID</label>
+            <label lang="pl-PL">Identyfikator sprzedawcy</label>
+        </input-field>
+
+        <input-field type="password">
+            <name>merchantSecret</name>
+            <label>Merchant secret</label>
+            <label lang="de-DE">Händler Passwort</label>
+            <label lang="pl-PL">Kod bezpieczeństwa</label>
+        </input-field>
+
+        <input-field type="text">
+            <name>merchantTrApiKey</name>
+            <label>Transaction API key</label>
+            <label lang="de-DE">Transaktion API Schlüssel</label>
+            <label lang="pl-PL">Klucz API Transakcji</label>
+        </input-field>
+
+        <input-field type="password">
+            <name>merchantTrApiPass</name>
+            <label>Transaction API key password</label>
+            <label lang="de-DE">Transaktion API key passwort</label>
+            <label lang="pl-PL">Hasło API Transakcji</label>
+        </input-field>
+
+        <component name="tpay-test-merchant-credentials-button">
+            <name>test</name>
+        </component>
+    </card>
+
+    <card>
+        <title>Advanced configuration</title>
+        <title lang="de-DE">Erweiterte Konfiguration</title>
+        <title lang="pl-PL">Zaawansowana konfiguracja</title>
+
+        <input-field type="single-select">
+            <name>channels</name>
+            <label>Available payment channels</label>
+            <label lang="de-DE">Verfügbare Zahlungskanäle</label>
+            <label lang="pl-PL">Dostępne kanały płatności</label>
+            <helpText>Show all available payment channel groups or download groups of payment channels available only online - for payment channels from these groups, booking is done within a short time</helpText>
+            <helpText lang="de-DE">Alle verfügbaren Zahlungskanalgruppen anzeigen oder Gruppen von Zahlungskanälen herunterladen, die nur online verfügbar sind - für Zahlungskanäle dieser Gruppen erfolgt die Buchung innerhalb kurzer Zeit</helpText>
+            <helpText lang="pl-PL">Pokaż wszystkie dostępne kanały płatności lub pokaż kanały płatności dostępne tylko online - w przypadku kanałów płatności online rezerwacja jest dokonywana bardzo szybko</helpText>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>Online Only</name>
+                    <name lang="de-DE">Nur online</name>
+                    <name lang="pl-PL">Tylko Online</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>All</name>
+                    <name lang="de-DE">Alle</name>
+                    <name lang="pl-PL">Wszystkie</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="bool">
+            <name>redirectDirectlyToTheBank</name>
+            <label>Redirect directly to the bank gate</label>
+            <label lang="de-DE">Leiten Sie direkt zum Bank-Gateway</label>
+            <label lang="pl-PL">Przekieruj prosto do bramki banku</label>
+            <helpText>After choosing the payment by bank transfer, the customer goes straight to the bank's gate,
+                bypassing the tPay gateway. This may result in the unavailability of some specific methods such as PeoPay at Bank Pekao SA
+            </helpText>
+            <helpText lang="de-DE">Nachdem der Kunde die Zahlung per Überweisung gewählt hat, geht er direkt zum Eingang der Bank und umgeht das tPay-Gateway.
+                Dies kann dazu führen, dass bestimmte Methoden wie PeoPay bei der Bank Pekao SA nicht verfügbar sind
+            </helpText>
+            <helpText lang="pl-PL">Klient po wybraniu płatności przelewem trafia prosto do bramki banku z pominięciem bramki tPay.
+                Może to powodować niedostępność niektórych specyficznych metod jak np. PeoPay w Banku Pekao SA
+            </helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>isVerificationSenderIpAddressOfPaymentNotification</name>
+            <label>Verification of the IP-address of the sender</label>
+            <label lang="de-DE">Überprüfung der IP-Adresse des Absenders</label>
+            <label lang="pl-PL">Weryfikacja adresu IP nadawcy powiadomienia o wpłacie</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>waitingTime</name>
+            <label>Waiting time (minutes)</label>
+            <label lang="de-DE">Wartezeit [minuten]</label>
+            <label lang="pl-PL">Czas oczekiwania [min]</label>
+            <defaultValue>2</defaultValue>
+        </input-field>
+    </card>
+</config>

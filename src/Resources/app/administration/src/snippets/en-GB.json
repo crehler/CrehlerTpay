@@ -1,0 +1,19 @@
+{
+    "tpay-shopware-payment": {
+        "config": {
+            "successTestMerchantCredentialsNotificationTitle": "Valid merchant credentials",
+            "successTestMerchantCredentialsNotificationMessage": "A test connection to Tpay server was successfully established",
+            "errorTestMerchantCredentialsNotificationTitle": "Invalid merchant credentials",
+            "errorTestMerchantCredentialsNotificationMessage": "There was a problem with the test connection. Check the correctness of the provided data.",
+            "buttonCredentialsTest": "Test credentials",
+            "invalidTestMerchantCredentialsNotificationTitle": "Missing data",
+            "emptyMerchantId": "Complete the Merchant ID",
+            "emptyMerchantSecret": "Fill the security key",
+            "emptyMerchantTrApiKey": "Complete the API key",
+            "emptyMerchantTrApiPass": "Complete the API password"
+        },
+        "order": {
+            "tpayTransactionIdLabel": "Tpay transaction identifier"
+        }
+    }
+}

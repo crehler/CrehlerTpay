@@ -1,0 +1,19 @@
+{
+    "tpay-shopware-payment": {
+        "config": {
+            "successTestMerchantCredentialsNotificationTitle": "Verbindung testen",
+            "successTestMerchantCredentialsNotificationMessage": "ine Testverbindung zum Tpay-Server wurde erfolgreich hergestellt.",
+            "errorTestMerchantCredentialsNotificationTitle": "Testverbindung fehlgeschlagen",
+            "errorTestMerchantCredentialsNotificationMessage": "Es gab ein Problem mit der Testverbindung. Bitte überprüfen Sie die angegebenen Daten",
+            "buttonCredentialsTest": "Verbindung testen",
+            "invalidTestMerchantCredentialsNotificationTitle": "Fehlende Daten",
+            "emptyMerchantId": "Vervollständigen Sie die Händler-ID",
+            "emptyMerchantSecret": "Füllen Sie den Sicherheitsschlüssel aus",
+            "emptyMerchantTrApiKey": "Vervollständigen Sie den API-Schlüssel",
+            "emptyMerchantTrApiPass": "Vervollständigen Sie das API-Passwort"
+        },
+        "order": {
+            "tpayTransactionIdLabel": "Tpay-Transaktionskennzeichen"
+        }
+    }
+}

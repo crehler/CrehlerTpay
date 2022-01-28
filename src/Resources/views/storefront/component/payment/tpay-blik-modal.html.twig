@@ -1,0 +1,41 @@
+<div class="blik--modal">
+    <div class="blik--modal-invalid-code">
+        <div class="blik--modal-message-error-blik-code">
+            {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                type: 'danger',
+                content: 'tpay.blik.modal.invalidCode'|trans|raw
+            } %}
+        </div>
+
+        <h4>{{ "tpay.blik.modal.title"|trans|sw_sanitize }}</h4>
+
+        <p class="blik--modal-invalid-code-help-text">{{ "tpay.blik.modal.helpInfo"|trans|raw }} <a href="https://blikmobile.pl/#jak-korzystac" rel="noopener noreferrer" target="_blank">{{ "tpay.blik.modal.helpLink"|trans|raw }}</a></p>
+        <input id="blik" type="text" class="form-control blik--input" name="blikCode"
+               placeholder="{{ "tpay.blik.placeholderEnterBlikCode"|trans|raw }}">
+        <button type="button" class="btn btn-light btn-block blik--modal-change-method-btn" data-toggle="modal"
+                data-backdrop="static" data-target="#confirmPaymentModal">
+            {{ "tpay.blik.modal.changePaymentMethod"|trans|sw_sanitize }}
+        </button>
+        <button id="confirmFormSubmit"
+                class="btn btn-primary btn-block btn-lg"
+                form="confirmOrderForm">
+            {{ "checkout.confirmSubmit"|trans|sw_sanitize }}
+        </button>
+    </div>
+    <div class="blik--modal-valid-code">
+        <div class="blikmodal--loader">
+            <div class="blikmodal--loader-animation"></div>
+            <img class="blikmodal--loader-img"
+                 src="https://secure.tpay.com/_/g/150.png"
+                 alt="Blik">
+        </div>
+        <div class="blik--modal-messages">
+            <div class="blik--modal-message-wait">
+                {{ "tpay.blik.modal.waitMessage"|trans|sw_sanitize }}
+                <p>{{ "tpay.blik.modal.helpInfo"|trans|sw_sanitize }} <a href="https://blikmobile.pl/#jak-korzystac" rel="noopener noreferrer" target="_blank">{{ "tpay.blik.modal.helpLink"|trans|sw_sanitize }}</a></p>
+            </div>
+            <div class="blik--modal-message-success is--hidden">{{ "tpay.blik.modal.successMessage"|trans|sw_sanitize }}</div>
+            <div class="blik--modal-message-error text-danger is--hidden">{{ "tpay.blik.modal.errorMessage"|trans|sw_sanitize }}</div>
+        </div>
+    </div>
+</div>

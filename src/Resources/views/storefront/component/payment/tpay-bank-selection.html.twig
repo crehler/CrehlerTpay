@@ -1,0 +1,36 @@
+<div class="tpay">
+    <div class="tpay--title">
+        {{ "tpay.bankSelection.bankSelectionTitle"|trans|sw_sanitize }}
+    </div>
+    {% set tpayBankSelectionOptions = {
+        paymentId: payment.id
+    } %}
+  <div class="tpay--list "
+        data-tpay-bank-selection="true"
+        data-tpay-payment-bank-selection-options='{{ tpayBankSelectionOptions|json_encode }}' >
+
+    {% for bank in bankList %}
+
+        <div class="tpay--list-item-container tpay--list-item-bank-{{ bank.id }} {% if bank.id == customer.customFields.tpay_default_payment_selected_bank.id %}is--active{% endif %}">
+            <input
+                    type="radio"
+                    id="tpay--bank-input-{{ bank.id }}"
+                    class="tpay--bank-input"
+                    name="tpayBank"
+                    value="{{ bank.id }}"
+                    data-bank="{{ bank.id }}"
+                    {% if bank.id == customer.customFields.tpay_default_payment_selected_bank.id %}checked{% endif %}
+            />
+            <label
+                    class="tpay--list-item tpay__list-item-{{ bank.id }} tpay--bank-input"
+                    for="tpay--bank-input-{{ bank.id }}"
+                    data-payment-selector="payment_mean{{ payment.id}}"
+                    data-bank="{{ bank.id }}"
+            >
+                <img class="tpay--list-img" src="{{ bank.img }}" alt="{{ bank.name }}"/>
+            </label>
+        </div>
+
+    {% endfor %}
+    </div>
+</div>

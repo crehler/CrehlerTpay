@@ -1,0 +1,74 @@
+{% sw_extends "@Storefront/storefront/page/checkout/confirm/index.html.twig" %}
+
+ {% block page_checkout_confirm_tos_control %}
+
+     {% if 'tpay_' in context.paymentMethod.formattedHandlerIdentifier %}
+         <div class="custom-control t custom-checkbox">
+             <input type="checkbox"
+                    class="checkout-confirm-tpay-tos-checkbox custom-control-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
+                    required="required"
+                    id="tpayTos"
+                    form="confirmOrderForm"
+                    name="tpayTos"/>
+
+             <label for="tpayTos"
+                    class="checkout-confirm-tpay-tos-label custom-control-label">
+                 {{ "tpay.checkout.confirmTerms"|trans|raw }}
+             </label>
+         </div>
+     {% endif %}
+
+     {{ parent() }}
+ {% endblock %}
+
+{% block page_checkout_aside_actions %}
+    {% set formattedHandlerIdentifier = context.paymentMethod.formattedHandlerIdentifier %}
+    {% if 'tpay_' in formattedHandlerIdentifier and 'blik' in formattedHandlerIdentifier and page.cart.errors is empty %}
+        {% set tpayBlikOptions = {
+            paymentMethodId : context.paymentMethod.id
+        } %}
+        <div class="checkout-aside-action">
+            <form id="confirmOrderForm"
+                  action="{{ path('frontend.checkout.finish.order') }}"
+                  data-tpay-blik="true"
+                  data-tpay-blik-options="{{ tpayBlikOptions|json_encode }}"
+                  data-form-preserver="true"
+                  method="post">
+                <div class="blik">
+                    <div class="blik--text">
+                        <label for="blik" class="blik--text-label">{{ "tpay.blik.labelEnterBlikCode"|trans|raw }}</label>
+                        <img class="blik--text-img"
+                             src="https://secure.tpay.com/_/g/150.png"
+                             alt="Blik">
+                    </div>
+                    <input id="blik" type="text" class="form-control blik--input h-auto" name="blikCode"
+                           placeholder="{{ "tpay.blik.placeholderEnterBlikCode"|trans|raw }}">
+
+                    <button id="confirmFormSubmit"
+                            class="btn btn-primary btn-block btn-lg mt-2"
+                            form="confirmOrderForm">
+                        {{ "checkout.confirmSubmit"|trans|sw_sanitize }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block base_pseudo_modal %}
+    {{ parent() }}
+    {% sw_include "@TpayShopwarePayment/storefront/component/payment/tpay-blik-modal.html.twig" %}
+{% endblock %}
+
+{% block base_script_router %}
+    {{ parent() }}
+
+    <script>
+        window.router['store-api.tpay.blik-payment.register-transaction'] = '{{ path('store-api.tpay.blik-payment.register-transaction') }}';
+        window.router['store-api.tpay.blik-payment.check-payment-state'] = '{{ path('store-api.tpay.blik-payment.check-payment-state') }}';
+        window.router['store-api.tpay.blik-payment.register-transaction-again'] = '{{ path('store-api.tpay.blik-payment.register-transaction-again') }}';
+    </script>
+{% endblock %}
+

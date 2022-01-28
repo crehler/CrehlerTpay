@@ -1,0 +1,7 @@
+{% block sw_order_detail_base_secondary_info_payment %}
+    {% parent %}
+    <template v-if="isTpayPayment">
+        <dt>{{ $tc('tpay-shopware-payment.order.tpayTransactionIdLabel') }}</dt>
+        <dd>{{ currentOrder.transactions.last().customFields.tpay_shopware_payment_transaction_id }}</dd>
+    </template>
+{% endblock %}

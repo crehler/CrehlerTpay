@@ -1,0 +1,28 @@
+{% sw_extends '@Storefront/storefront/page/account/_page.html.twig' %}
+
+{% block base_content %}
+    {% set tpayPaymentCheckOptions = {
+        orderId: page.orderId,
+        transactionId: page.transactionId,
+        successUrl: seoUrl('frontend.checkout.finish.page', {'orderId': page.orderId}),
+        failUrl: path('frontend.account.edit-order.page', { 'orderId': page.orderId }),
+        checkUrl: path('store-api.tpay-payment-check'),
+        waitingTime: config('TpayShopwarePayment.config.waitingTime'),
+        waitingSuccessText: "tpay.paymentConfirmation.waitingSuccessText"|trans|sw_sanitize,
+        waitingFailText: "tpay.paymentConfirmation.waitingFailText"|trans|sw_sanitize,
+    } %}
+    <div data-tpay-payment-check="true"
+         data-tpay-payment-check-options='{{ tpayPaymentCheckOptions|json_encode }}'
+    >
+        <div class="check-payment--loader">
+            <div class="check-payment--loader-animation"></div>
+            <div data-info-text="true" class="font-weight-bold">{{ "tpay.paymentConfirmation.waitingText"|trans|sw_sanitize }}</div>
+            <div class="mt-5">
+                <a class="btn btn-secondary change-payment-method-btn"
+                   href="{{ path('frontend.account.edit-order.page', { 'orderId': page.orderId }) }}">
+                    {{ "tpay.paymentConfirmation.changePaymentMethodButton"|trans|sw_sanitize }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

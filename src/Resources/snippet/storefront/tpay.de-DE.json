@@ -1,0 +1,35 @@
+{
+    "tpay": {
+        "config": {
+            "transaction": {
+                "description": "Zahlung für Auftragsnummer:"
+            }
+        },
+        "checkout": {
+            "confirmTerms": "Ich akzeptiere die <a data-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Bestimmungen\">Bestimmungen</a> Tpay."
+        },
+        "blik": {
+            "labelEnterBlikCode": "Eingabe BlikCode:",
+            "placeholderEnterBlikCode": "6-stelligen Blik-Code eingeben",
+            "modal": {
+                "title": "Geben Sie Ihren BLIK-Code ein.",
+                "invalidCode": "Der angegebene BLIK-Code ist ungültig.",
+                "errorMessage": "Es gibt ein Problem!",
+                "waitMessage": "Bestätigen Sie die Zahlung auf Ihrem Telefon.",
+                "successMessage": "Bestellung ist bezahlt!",
+                "helpInfo": "rauchen Sie Hilfe? Sehen Sie hier:",
+                "helpLink": "Wie kann man mit BLIK bezahlen?",
+                "changePaymentMethod": "Zahlungsmethode ändern"
+            }
+        },
+        "bankSelection": {
+            "bankSelectionTitle": "Wählen Sie Ihre Bank:"
+        },
+        "paymentConfirmation": {
+            "waitingText": "Warten auf Zahlungsbestätigung...",
+            "waitingSuccessText": "Die Zahlung wurde bestätigt",
+            "waitingFailText": "Die Wartezeit für die Zahlung ist abgelaufen",
+            "changePaymentMethodButton": "Zahlungsmethode ändern"
+        }
+    }
+}

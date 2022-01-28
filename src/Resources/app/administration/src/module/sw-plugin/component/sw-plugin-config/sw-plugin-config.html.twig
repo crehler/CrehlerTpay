@@ -1,0 +1,10 @@
+{% block sw_plugin_config_actions_save %}
+<template v-if="namespace === 'TpayShopwarePayment'">
+    <sw-button variant="primary" class="sw-plugin-config__save-action" @click="tpayTestMerchantCredentials">
+        {{ $tc('sw-plugin-config.buttonSave') }}
+    </sw-button>
+</template>
+<template v-else>
+    {% parent %}
+</template>
+{% endblock %}

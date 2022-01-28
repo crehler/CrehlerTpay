@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient">
+            <argument type="service" id="validator.mapping.cache.adapter"/>
+            <argument type="service" id="Tpay\ShopwarePayment\Config\Service\ConfigService"/>
+            <argument type="service" id="tpay_shopware_payment.util.logger"/>
+        </service>
+    </services>
+</container>

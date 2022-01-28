@@ -1,0 +1,47 @@
+{% sw_extends "@Storefront/storefront/page/account/order/index.html.twig" %}
+
+{% block page_checkout_aside_actions %}
+    {% set formattedHandlerIdentifier = context.paymentMethod.formattedHandlerIdentifier %}
+    {% if 'tpay_' in formattedHandlerIdentifier and 'blik' in formattedHandlerIdentifier and page.cart.errors is empty %}
+        {% set tpayBlikOptions = {
+            paymentMethodId: context.paymentMethod.id,
+            changedPayment: true
+        } %}
+        <div class="checkout-aside-action">
+            <form id="confirmOrderForm"
+                  action="{{ path('frontend.account.edit-order.update-order', { 'orderId': page.order.id }) }}"
+                  data-tpay-blik="true"
+                  data-tpay-blik-options="{{ tpayBlikOptions|json_encode }}"
+                  data-form-preserver="true"
+                  method="post">
+                <div class="blik">
+                    <div class="blik--text">
+                        <label for="blik" class="blik--text-label">{{ "tpay.blik.labelEnterBlikCode"|trans|raw }}</label>
+                        <img class="blik--text-img"
+                             src="https://secure.tpay.com/_/g/150.png"
+                             alt="Blik">
+                    </div>
+                    <input id="blik" type="text" class="form-control blik--input h-auto" name="blikCode"
+                           placeholder="{{ "tpay.blik.placeholderEnterBlikCode"|trans|raw }}">
+
+                    <input type="hidden" name="orderId" value="{{ page.order.id }}">
+                    <input type="hidden" name="paymentMethodId" value="{{ context.getPaymentMethod.getId }}">
+                    <input type="hidden" name="changedPayment" value="true">
+
+                    {% block page_checkout_confirm_form_submit %}
+                        <button id="confirmFormSubmit"
+                                form="confirmOrderForm"
+                                class="btn btn-primary btn-block mt-2"
+                                {% if page.paymentChangeable == false or paymentMethodInvalid == true %}
+                                    disabled="disabled"
+                                {% endif %}>
+                            {{ "account.editOrderUpdateButton"|trans|sw_sanitize }}
+                        </button>
+                    {% endblock %}
+                </div>
+            </form>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

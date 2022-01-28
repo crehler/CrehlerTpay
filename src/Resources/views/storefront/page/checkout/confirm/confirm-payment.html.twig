@@ -1,0 +1,9 @@
+{% sw_extends "@Storefront/storefront/page/checkout/confirm/confirm-payment.html.twig" %}
+
+{% block page_checkout_confirm_payment_title %}
+    {{ parent() }}
+
+    {% if context.paymentMethod.formattedHandlerIdentifier is same as('handler_tpay_banktransferpaymenthandler') and context.customer.customFields.tpay_default_payment_selected_bank %}
+        <img src="{{ context.customer.customFields.tpay_default_payment_selected_bank.image }}">
+    {% endif %}
+{% endblock %}
