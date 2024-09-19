@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Payment;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
@@ -25,9 +27,10 @@ use Shopware\Core\Checkout\Payment\Exception\InvalidTransactionException;
 use Shopware\Core\Checkout\Payment\Exception\TokenExpiredException;
 use Shopware\Core\Checkout\Payment\Exception\UnknownPaymentMethodException;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -36,39 +39,14 @@ use Tpay\ShopwarePayment\TpayShopwarePayment;
 
 class TpayPaymentService
 {
-    /**
-     * @var TokenFactoryInterfaceV2
-     */
-    private $tokenFactory;
-
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $orderTransactionRepository;
-
-    /**
-     * @var OrderTransactionStateHandler
-     */
-    private $transactionStateHandler;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        TokenFactoryInterfaceV2 $tokenFactory,
-        EntityRepositoryInterface $orderTransactionRepository,
-        OrderTransactionStateHandler $transactionStateHandler,
-        RouterInterface $router,
-        LoggerInterface $logger
+        private readonly TokenFactoryInterfaceV2 $tokenFactory,
+        #[Autowire('@order_transaction.repository')]
+        private readonly EntityRepository $orderTransactionRepository,
+        private readonly OrderTransactionStateHandler $transactionStateHandler,
+        private readonly RouterInterface $router,
+        private readonly LoggerInterface $logger
     ) {
-        $this->tokenFactory = $tokenFactory;
-        $this->orderTransactionRepository = $orderTransactionRepository;
-        $this->transactionStateHandler = $transactionStateHandler;
-        $this->router = $router;
-        $this->logger = $logger;
     }
 
 
@@ -94,18 +72,6 @@ class TpayPaymentService
         }
 
         return new RedirectResponse($this->router->generate('frontend.checkout.finish.page', ['orderId' => $paymentTransactionStruct->getOrder()->getId()], UrlGeneratorInterface::ABSOLUTE_URL));
-    }
-
-    public function process(array $notification, string $paymentToken, SalesChannelContext $salesChannelContext): Response
-    {
-        $paymentTokenStruct = $this->parseToken($paymentToken);
-        $transactionId = $paymentTokenStruct->getTransactionId();
-        $context = $salesChannelContext->getContext();
-        $transactionStruct = $this->getPaymentTransactionStruct($transactionId, $context);
-
-        $this->addTpayTransactionId($transactionStruct, $notification['tr_id'], $context);
-
-        return $this->handlePaymentStatus($notification, $transactionStruct, $context);
     }
 
     /**
@@ -139,32 +105,16 @@ class TpayPaymentService
         return new AsyncPaymentTransactionStruct($orderTransaction, $orderTransaction->getOrder(), '');
     }
 
-    private function handlePaymentStatus(array $notification, AsyncPaymentTransactionStruct $transaction, Context $context): Response
+    public function process(array $notification, string $paymentToken, SalesChannelContext $salesChannelContext): Response
     {
-        $transactionId = $transaction->getOrderTransaction()->getId();
-        if ($notification['tr_status'] === 'CHARGEBACK') {
-            $this->transactionStateHandler->refund($transactionId, $context);
+        $paymentTokenStruct = $this->parseToken($paymentToken);
+        $transactionId = $paymentTokenStruct->getTransactionId();
+        $context = $salesChannelContext->getContext();
+        $transactionStruct = $this->getPaymentTransactionStruct($transactionId, $context);
 
-            return new Response('TRUE');
-        }
+        $this->addTpayTransactionId($transactionStruct, $notification['tr_id'], $context);
 
-        $paidAmount = (int) $notification['tr_paid'] * 100;
-        $orderAmount = (int) $transaction->getOrder()->getAmountTotal() * 100;
-
-        if ($paidAmount < $orderAmount || $notification['tr_error'] === 'surcharge') {
-            $this->transactionStateHandler->payPartially($transactionId, $context);
-
-            return new Response('TRUE');
-        }
-
-        if (($notification['tr_error'] === 'none' || $notification['tr_error'] === 'overpay')
-            && $notification['tr_status'] === 'TRUE') {
-            $this->transactionStateHandler->paid($transactionId, $context);
-
-            return new Response('TRUE');
-        }
-
-        return new Response("FALSE");
+        return $this->handlePaymentStatus($notification, $transactionStruct, $context);
     }
 
     private function addTpayTransactionId(
@@ -179,5 +129,35 @@ class TpayPaymentService
             ],
         ];
         $this->orderTransactionRepository->update([$data], $context);
+    }
+
+    private function handlePaymentStatus(array $notification, AsyncPaymentTransactionStruct $transaction, Context $context): Response
+    {
+        $transactionId = $transaction->getOrderTransaction()->getId();
+        if ($notification['tr_status'] === 'CHARGEBACK') {
+            $this->transactionStateHandler->refund($transactionId, $context);
+
+            return new Response('TRUE');
+        }
+
+        $paidAmount = (int)$notification['tr_paid'] * 100;
+        $orderAmount = (int)$transaction->getOrder()->getAmountTotal() * 100;
+
+        if ($paidAmount < $orderAmount || $notification['tr_error'] === 'surcharge') {
+            $this->transactionStateHandler->payPartially($transactionId, $context);
+
+            return new Response('TRUE');
+        }
+
+        if (
+            ($notification['tr_error'] === 'none' || $notification['tr_error'] === 'overpay')
+            && $notification['tr_status'] === 'TRUE'
+        ) {
+            $this->transactionStateHandler->paid($transactionId, $context);
+
+            return new Response('TRUE');
+        }
+
+        return new Response("FALSE");
     }
 }

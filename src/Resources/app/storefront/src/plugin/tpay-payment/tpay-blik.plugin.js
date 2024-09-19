@@ -1,6 +1,5 @@
 import Iterator from 'src/helper/iterator.helper';
 import Plugin from 'src/plugin-system/plugin.class';
-import PluginManager from 'src/plugin-system/plugin.manager';
 import BlikApiService from './service/blik-api.service';
 import BlikModalUtil from './Util/blik-modal.util';
 
@@ -53,7 +52,7 @@ export default class TpayBlikPlugin extends Plugin {
             });
 
             tos.addEventListener('invalid', e => {
-                e.target.scrollIntoView( { behavior: 'smooth', block: 'center' } )
+                e.target.scrollIntoView({behavior: 'smooth', block: 'center'})
             });
         })
     }
@@ -76,11 +75,11 @@ export default class TpayBlikPlugin extends Plugin {
 
             this.$blikModal.querySelector('.blik--modal').classList.add(this.options.isInvalidClass);
         } else {
-           if (this.options.changedPayment === false) {
+            if (this.options.changedPayment === false) {
                 this._blikApiClient.sendBlikTransaction(new FormData(this.el), this._handleBlikTransaction.bind(this));
             } else {
                 this._blikApiClient.sendBlikTransactionAgain(new FormData(this.el), this._handleBlikTransaction.bind(this));
-           }
+            }
         }
 
         this.$blikModal.classList.add(this.options.pseudoModalAdditionalClass);
@@ -96,13 +95,13 @@ export default class TpayBlikPlugin extends Plugin {
     _onOpenBlik() {
         this._registerModalEvents(this.$blikModal);
 
-        PluginManager.initializePlugins();
+        window.PluginManager.initializePlugins();
     }
 
     _registerModalEvents(modal) {
         const modalBlikInput = modal.querySelector(this.options.blikCodeInputSelector);
         modal.querySelector(this.options.submitButtonSelector).addEventListener('click', () => {
-            const invalidCodeStep =  modal.querySelector(this.options.modalInvalidCodeSelector)
+            const invalidCodeStep = modal.querySelector(this.options.modalInvalidCodeSelector)
 
             if (!this._blikCodeValidation(modalBlikInput)) {
                 modalBlikInput.classList.add(this.options.isInvalidClass);
@@ -130,13 +129,17 @@ export default class TpayBlikPlugin extends Plugin {
 
         if (json.orderId) {
             this.$isOrderCreated = true;
-            
-            this.$blikModal.querySelector(this.options.modalChangeMethodButtonSelector).addEventListener("click", () => {
-                window.location.replace(`/account/order/edit/${json.orderId}`);
-            });
+            [...this.$blikModal.querySelectorAll(this.options.modalChangeMethodButtonSelector)]
+                .forEach(el => {
+                        el.classList.remove('d-none')
+                        el.addEventListener('click', () => {
+                            window.location.replace(`/account/order/edit/${json.orderId}`)
+                        })
+                    }
+                );
         }
 
-        if ( !this._handleErrors(json)) {
+        if (!this._handleErrors(json)) {
             return false
         } else if (json.success && json.orderId) {
             this._finishUrl = json.finishUrl;

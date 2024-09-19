@@ -3,16 +3,16 @@
  {% block page_checkout_confirm_tos_control %}
 
      {% if 'tpay_' in context.paymentMethod.formattedHandlerIdentifier %}
-         <div class="custom-control t custom-checkbox">
+         <div class="form-check">
              <input type="checkbox"
-                    class="checkout-confirm-tpay-tos-checkbox custom-control-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
+                    class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
                     required="required"
                     id="tpayTos"
                     form="confirmOrderForm"
                     name="tpayTos"/>
 
              <label for="tpayTos"
-                    class="checkout-confirm-tpay-tos-label custom-control-label">
+                    class="checkout-confirm-tpay-tos-label form-check-label">
                  {{ "tpay.checkout.confirmTerms"|trans|raw }}
              </label>
          </div>
@@ -52,6 +52,22 @@
                 </div>
             </form>
         </div>
+    {% elseif context.paymentMethod.formattedHandlerIdentifier is same as('handler_tpay_banktransferpaymenthandler')
+        and context.customer.customFields.tpay_default_payment_selected_bank is empty %}
+        <div class="checkout-aside-action">
+            <form id="confirmOrderForm"
+                  action="{{ path('frontend.checkout.finish.order') }}"
+                  method="post">
+
+                    <button id="confirmFormSubmit"
+                            class="btn btn-primary btn-block btn-lg mt-2"
+                            form="confirmOrderForm"
+                            disabled="disabled">
+                        {{ "tpay.bankSelection.bankSelectionTitle"|trans|sw_sanitize }}
+                    </button>
+
+            </form>
+        </div>
     {% else %}
         {{ parent() }}
     {% endif %}
@@ -62,13 +78,13 @@
     {% sw_include "@TpayShopwarePayment/storefront/component/payment/tpay-blik-modal.html.twig" %}
 {% endblock %}
 
-{% block base_script_router %}
+{% block base_body_script %}
     {{ parent() }}
 
     <script>
-        window.router['store-api.tpay.blik-payment.register-transaction'] = '{{ path('store-api.tpay.blik-payment.register-transaction') }}';
-        window.router['store-api.tpay.blik-payment.check-payment-state'] = '{{ path('store-api.tpay.blik-payment.check-payment-state') }}';
-        window.router['store-api.tpay.blik-payment.register-transaction-again'] = '{{ path('store-api.tpay.blik-payment.register-transaction-again') }}';
+        window.router['tpay.blik-payment.register-transaction'] = '{{ path('tpay.blik-payment.register-transaction') }}';
+        window.router['tpay.blik-payment.check-payment-state'] = '{{ path('tpay.blik-payment.check-payment-state') }}';
+        window.router['tpay.blik-payment.register-transaction-again'] = '{{ path('tpay.blik-payment.register-transaction-again') }}';
     </script>
 {% endblock %}
 

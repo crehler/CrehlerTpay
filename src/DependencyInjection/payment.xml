@@ -10,19 +10,19 @@
         <service id="Tpay\ShopwarePayment\Payment\BlikPaymentHandler">
             <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
-            <tag name="shopware.payment.method.sync" />
+            <tag name="shopware.payment.method.sync"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\BankTransferPaymentHandler">
             <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\BankTransferPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
-            <tag name="shopware.payment.method.async" />
+            <tag name="shopware.payment.method.async"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\CardPaymentHandler">
             <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\CardPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
-            <tag name="shopware.payment.method.async" />
+            <tag name="shopware.payment.method.async"/>
         </service>
 
         <!-- Builders -->
@@ -32,21 +32,39 @@
             <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\Token\JWTFactoryV2"/>
             <argument type="service" id="router"/>
             <argument type="service" id="Shopware\Core\Framework\Adapter\Translation\Translator"/>
-            <argument type="service" id="session"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
             <argument type="service" id="tpay_payment_tokens.repository"/>
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\Builder\CardPaymentBuilder">
-            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createCardBuilder" />
+            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createCardBuilder"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\Builder\BankTransferPaymentBuilder">
-            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createBankTransferBuilder"/>
+            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory"
+                     method="createBankTransferBuilder"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilder">
             <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createBlikBuilder"/>
+        </service>
+
+        <!-- StoreApi -->
+        <service id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute" >
+            <argument type="service" id="Shopware\Storefront\Framework\Routing\Router"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Payment\PaymentService"/>
+            <argument type="service" id="order_transaction.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Payment\SalesChannel\HandlePaymentMethodRoute"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderRoute"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\SetPaymentOrderRoute"/>
+        </service>
+
+        <service id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute" >
+            <argument type="service" id="order_transaction.repository"/>
         </service>
 
         <!-- Controllers -->
@@ -59,24 +77,14 @@
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\SalesChannel\BlikPaymentController" public="true">
-            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderService"/>
-            <argument type="service" id="Shopware\Core\Checkout\Payment\PaymentService"/>
-            <argument type="service" id="order_transaction.repository"/>
-            <argument type="service" id="Shopware\Core\Checkout\Payment\SalesChannel\HandlePaymentMethodRoute"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderRoute"/>
-            <argument type="service" id="Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute"/>
-            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextService"/>
-            <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\SetPaymentOrderRoute"/>
-
+            <argument type="service" id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\SalesChannel\TpayCheckPaymentController" public="true">
-            <argument type="service" id="order_transaction.repository"/>
-
+            <argument type="service" id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -90,6 +98,9 @@
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
+            </call>
+            <call method="setTwig">
+                <argument type="service" id="twig"/>
             </call>
         </service>
 

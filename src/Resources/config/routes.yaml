@@ -1,0 +1,9 @@
+config-api:
+  resource: '../../Config/**/*Controller.php'
+  type: attribute
+webhook-api:
+  resource: '../../Webhook/**/*Controller.php'
+  type: attribute
+payment-api:
+  resource: '../../Payment/**/*Controller.php'
+  type: attribute

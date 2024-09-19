@@ -24,7 +24,6 @@
 
         <!-- Tpay Logger -->
         <service id="tpay_shopware_payment.util.logger" class="Monolog\Logger">
-            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
             <argument type="string">tpay_shopware_payment</argument>
         </service>
 

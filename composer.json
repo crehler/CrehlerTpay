@@ -2,24 +2,20 @@
   "name": "tpay/shopware-payment",
   "description": "Tpay Payment for Shopware 6",
   "type": "shopware-platform-plugin",
-  "version": "1.0.14",
+  "version": "3.0.0",
   "license": "MIT",
   "authors": [
     {
       "name": "Tpay Krajowy Integrator Płatności S.A",
       "homepage": "https://tpay.com",
       "role": "Owner"
-    },
-    {
-      "name": "Jakub Medyński",
-      "homepage": "https://github.com/jmedynski",
-      "role": "Developer"
     }
   ],
   "require": {
-    "shopware/core": "^6.4",
+    "shopware/core": "^6.6",
     "tpay-com/tpay-php": "^2.3",
-    "whitecube/lingua": "^1.1"
+    "whitecube/lingua": "^1.1",
+    "ext-openssl": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"
@@ -41,6 +37,11 @@
       "pl-PL": "Nasz plugin “Tpay for Shopware 6” pozwala na szybką i łatwą integrację popularnego dostawcy płatności internetowych Tpay z Twoim sklepem internetowym, który używany jest już w tysiącach sklepów na całym świecie. Moduł ten oferuje szeroki zakres dostępnych metod płatności w ramach Tpay, które możesz teraz udostępnić swoim klientom na platformie Shopware 6. Obsługiwane są następujące metody płatności: Przelewy bankowe, karty kredytowe, e-transfery, płatności ratalne, płatności mobilne z kodami QR, system BLIK i SMS Premium.",
       "en-GB": "Our \"Tpay Payment for Shopware 6\" plugin enables you to quickly and easily integrate the popular online payment provider Tpay into your online store. As part of Tpay, the module offers a wide range of available payment methods, which you can now also offer your Shopware 6 shop customers. The following payment methods are supported: bank transfers, credit cards, e-transfers, installment payments, mobile payments with QR codes, BLIK system and SMS premium.",
       "de-DE": "Unser Plugin \"Tpay Payment für Shopware 6\" ermöglicht es Ihnen, den bekannten Online-Zahlungsanbieter Tpay, der bereits weltweit in Tausenden von Shops eingesetzt wird, schnell und einfach in Ihrem Webshop zu integrieren. Das Modul bietet im Rahmen von Tpay ein breites Spektrum an verfügbaren Zahlungsmethoden, die Sie nun Ihren Kunden auch bei Shopware 6 zur Verfügung stellen können. Folgende Zahlungsmethoden werden unterstützt: Banküberweisungen, Kreditkarten, e-Überweisungen, Ratenzahlungen, mobile Zahlungen mit QR-Codes, BLIK-System und SMS Premium."
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/runtime": true
     }
   }
 }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,10 +15,9 @@
 
 namespace Tpay\ShopwarePayment\Util\Locale;
 
-
 class LocaleDictionary
 {
-    public const Locale = [
+    final public const Locale = [
         'en-GB' => 'EN',
         'en-AU' => 'EN',
         'en-US' => 'EN',
