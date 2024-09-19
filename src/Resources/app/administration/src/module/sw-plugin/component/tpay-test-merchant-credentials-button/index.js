@@ -19,7 +19,9 @@ const TPAY_CONFIG_NAMESPACE = 'TpayShopwarePayment.config.';
 Component.register('tpay-test-merchant-credentials-button', {
     template: template,
 
-    inject: ['TpayMerchantCredentialsService'],
+    inject: ['TpayMerchantCredentialsService',
+            'systemConfigApiService'
+            ],
 
     mixins: [
         Mixin.getByName('notification')
@@ -36,30 +38,32 @@ Component.register('tpay-test-merchant-credentials-button', {
     methods: {
         tpayTestMerchantCredentials() {
             this.isLoading = true;
-            this.fields = this.$parent.$parent.$parent.$children;
+            this.systemConfigApiService.getValues('TpayShopwarePayment.config', null)
+                .then(values => {
+                    this.fields = values;
 
-            const merchantId = this.getValue('merchantId');
-            const merchantSecret = this.getValue('merchantSecret')
-            const merchantTrApiKey = this.getValue('merchantTrApiKey')
-            const merchantTrApiPass = this.getValue('merchantTrApiPass')
+                    const merchantId = this.getValue('merchantId');
+                    const merchantSecret = this.getValue('merchantSecret')
+                    const merchantTrApiKey = this.getValue('merchantTrApiKey')
+                    const merchantTrApiPass = this.getValue('merchantTrApiPass')
 
-            this.TpayMerchantCredentialsService.validateMerchantCredentials(merchantId, merchantSecret, merchantTrApiKey, merchantTrApiPass)
-                .then((response) => {
-                    this.isLoading = false;
-                    if (response.success === false) {
-                        this.onInvalidData(response.code);
-                        return;
-                    }
-                    if (!response.credentialsValid) {
+                    this.TpayMerchantCredentialsService.validateMerchantCredentials(merchantId, merchantSecret, merchantTrApiKey, merchantTrApiPass)
+                        .then((response) => {
+                            this.isLoading = false;
+                            if (response.success === false) {
+                                this.onInvalidData(response.code);
+                                return;
+                            }
+                            if (!response.credentialsValid) {
+                                this.onError();
+                                return;
+                            }
+                            this.onSuccess();
+                        }).catch(() => {
+                        this.isLoading = false;
                         this.onError();
-                        return;
-                    }
-                    this.onSuccess();
-                }).catch(() => {
-                this.isLoading = false;
-                this.onError();
-            })
-
+                    })
+                })
         },
 
         onSuccess() {
@@ -98,10 +102,11 @@ Component.register('tpay-test-merchant-credentials-button', {
                     message = this.$tc('tpay-shopware-payment.config.emptyMerchantTrApiPass');
                     break;
                 default:
-                    message = code;
+                    message = this.$tc('tpay-shopware-payment.config.errorTestMerchantCredentialsNotificationMessage');
             }
             this.createNotificationError({
-                title: this.$tc('tpay-shopware-payment.config.invalidTestMerchantCredentialsNotificationTitle'),
+                title: this.$tc('tpay-shopware-payment.config.errorTestMerchantCredentialsNotificationTitle'),
+
                 message: message,
                 autoClose: true
             });
@@ -112,14 +117,8 @@ Component.register('tpay-test-merchant-credentials-button', {
         },
 
         getValue(name) {
-            const field = this.fields.find((field) => {
-                return this.getFieldByName(field, name)
-            })
-            if (typeof field.currentValue === 'undefined' || "" === field.currentValue) {
-                return field.$attrs.placeholder;
-            }
-
-            return field.currentValue;
+            const field = this.fields['TpayShopwarePayment.config.' + name];
+            return field;
         }
     }
 });

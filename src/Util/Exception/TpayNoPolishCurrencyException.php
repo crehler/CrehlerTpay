@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,13 +15,11 @@
 
 namespace Tpay\ShopwarePayment\Util\Exception;
 
-
 use Shopware\Core\Framework\ShopwareHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 class TpayNoPolishCurrencyException extends ShopwareHttpException
 {
-
     public function __construct()
     {
         parent::__construct(

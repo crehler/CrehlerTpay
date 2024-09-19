@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,12 +15,11 @@
 
 namespace Tpay\ShopwarePayment\Util\Payments;
 
-
 use Tpay\ShopwarePayment\Payment\CardPaymentHandler;
 
 class Card extends Payment
 {
-    public const ID = 103;
+    final public const ID = 103;
 
     public function __construct()
     {

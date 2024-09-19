@@ -10,6 +10,7 @@
             <argument type="service" id="Tpay\ShopwarePayment\Config\Service\ConfigService"/>
             <argument type="service" id="Tpay\ShopwarePayment\Payment\TpayPaymentService" />
             <argument type="service" id="tpay_payment_tokens.repository"/>
+            <argument type="service" id="Tpay\ShopwarePayment\Service\TpayNotificationValidator" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

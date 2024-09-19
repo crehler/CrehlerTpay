@@ -9,7 +9,7 @@ class Migration1614241149PaymentToken extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
-        return 1614241149;
+        return 1_614_241_149;
     }
 
     public function update(Connection $connection): void

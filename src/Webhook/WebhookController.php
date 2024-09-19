@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -10,66 +11,62 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Tpay\ShopwarePayment\Webhook;
 
-
+use Exception;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Struct\ArrayEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
 use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicNotificationHandler;
 use Tpay\ShopwarePayment\Payment\TpayPaymentService;
+use Tpay\ShopwarePayment\Service\TpayNotificationValidatorInterface;
+use tpayLibs\src\_class_tpay\Utilities\Util;
 
-/**
- * @RouteScope(scopes={"storefront"})
- */
+#[Route(defaults: ['_routeScope' => ['storefront']])]
 class WebhookController extends StorefrontController
 {
-    /** @var ConfigServiceInterface */
-    private $configService;
-
-    /** @var TpayPaymentService */
-    private $paymentService;
-
-    /** @var EntityRepositoryInterface */
-    private $tpayPaymentTokenRepository;
-
-    public function __construct(ConfigServiceInterface $configService, TpayPaymentService $paymentService, EntityRepositoryInterface $tpayPaymentTokenRepository
-    )
-    {
-        $this->configService = $configService;
-        $this->paymentService = $paymentService;
-        $this->tpayPaymentTokenRepository = $tpayPaymentTokenRepository;
+    public function __construct(
+        private readonly ConfigServiceInterface $configService,
+        private readonly TpayPaymentService $paymentService,
+        #[Autowire('@tpay_payment_tokens.repository')]
+        private readonly EntityRepository $tpayPaymentTokenRepository,
+        private readonly TpayNotificationValidatorInterface $tpayNotificationValidator
+    ) {
     }
 
-    /**
-     * @Route(
-     *     "/tpay/webhook/notify",
-     *     name="action.tpay.webhook.notify",
-     *     options={"seo"="false"},
-     *     methods={"POST"},
-     *     defaults={"csrf_protected"=false}
-     *     )
-     */
+    #[Route(
+        path: '/tpay/webhook/notify',
+        name: 'action.tpay.webhook.notify',
+        options: ['seo' => 'false'],
+        defaults: ['csrf_protected' => false],
+        methods: ['POST']
+    )]
     public function notifyAction(Request $request, SalesChannelContext $salesChannelContext): Response
     {
+        if (!$this->tpayNotificationValidator->isJwsValid($request)) {
+            return new Response('FALSE');
+        }
+
         $tokenId = $request->get('tokenId');
 
         if (null === $tokenId) {
-            throw new \Exception('Token is empty');
+            throw new Exception('Token is empty');
         }
 
         $tokenEntity = $this->getToken($tokenId, $salesChannelContext->getContext());
 
         if (null === $tokenEntity) {
-            throw new \Exception('Token not found');
+            throw new Exception('Token not found');
         }
 
         $config = $this->configService->getConfigs($salesChannelContext->getSalesChannel()->getId());
@@ -78,7 +75,7 @@ class WebhookController extends StorefrontController
         if ($config->isVerificationSenderIpAddressOfPaymentNotification()) {
             $notification->enableForwardedIPValidation()->enableValidationServerIP();
         } else {
-            $notification->enableForwardedIPValidation()->disableValidationServerIP();
+            $notification->disableForwardedIPValidation()->disableValidationServerIP();
         }
 
         $notificationData = $notification->checkPayment();
@@ -90,6 +87,4 @@ class WebhookController extends StorefrontController
     {
         return $this->tpayPaymentTokenRepository->search(new Criteria([$tokenId]), $context)->first();
     }
-
 }
-

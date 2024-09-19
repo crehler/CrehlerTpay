@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,35 +15,23 @@
 
 namespace Tpay\ShopwarePayment\Util;
 
-
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Rule\Container\AndRule;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\Currency\Rule\CurrencyRule;
-use Tpay\ShopwarePayment\Util\Exception\TpayNoPolishCurrencyException;
 
 class RuleUtil
 {
-
     private const RULE_NAME = 'Tpay only PLN';
 
-    /** @var EntityRepositoryInterface */
-    private $ruleRepository;
-
-    /** @var EntityRepositoryInterface */
-    private $currencyRepository;
-
-    /** @var Context */
-    private $context;
-
-    public function __construct(EntityRepositoryInterface $ruleRepository, EntityRepositoryInterface $currencyRepository, Context $context)
-    {
-        $this->ruleRepository = $ruleRepository;
-        $this->currencyRepository = $currencyRepository;
-        $this->context = $context;
+    public function __construct(
+        private readonly EntityRepository $ruleRepository,
+        private readonly EntityRepository $currencyRepository,
+        private readonly Context $context
+    ) {
     }
 
     public function getRuleId(): string
@@ -125,7 +116,6 @@ class RuleUtil
                 'roundForNet' => true
             ]
         ];
-
 
 
         $this->currencyRepository->upsert([$currencyData], $this->context);

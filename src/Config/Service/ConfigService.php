@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,24 +15,17 @@
 
 namespace Tpay\ShopwarePayment\Config\Service;
 
-
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
-use Tpay\ShopwarePayment\Config\TpayConfigStructValidator;
 use Tpay\ShopwarePayment\Config\TpayConfigStruct;
+use Tpay\ShopwarePayment\Config\TpayConfigStructValidator;
 
 class ConfigService implements ConfigServiceInterface
 {
-    public const SYSTEM_CONFIG_DOMAIN = 'TpayShopwarePayment.config';
+    final public const SYSTEM_CONFIG_DOMAIN = 'TpayShopwarePayment.config';
 
-    /**
-     * @var SystemConfigService
-     */
-    private $systemConfigService;
-
-    public function __construct(SystemConfigService $systemConfigService)
+    public function __construct(private readonly SystemConfigService $systemConfigService)
     {
-        $this->systemConfigService = $systemConfigService;
     }
 
     /**

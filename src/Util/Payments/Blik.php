@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,12 +15,11 @@
 
 namespace Tpay\ShopwarePayment\Util\Payments;
 
-
 use Tpay\ShopwarePayment\Payment\BlikPaymentHandler;
 
 class Blik extends Payment
 {
-    public const ID = 150;
+    final public const ID = 150;
 
     public function __construct()
     {

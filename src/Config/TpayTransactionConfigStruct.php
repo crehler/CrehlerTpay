@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -10,9 +13,7 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Tpay\ShopwarePayment\Config;
-
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Struct\Struct;
@@ -48,6 +49,9 @@ class TpayTransactionConfigStruct extends Struct
 
     /** @var string */
     protected $result_url;
+
+    /** @var int */
+    protected $direct = 0;
 
     /** @var string */
     protected $email;
@@ -95,11 +99,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $crc
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setCrc($crc): TpayTransactionConfigStruct
+    public function setCrc(mixed $crc): TpayTransactionConfigStruct
     {
         $this->crc = $crc;
         return $this;
@@ -123,32 +125,11 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $name
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setName($name): TpayTransactionConfigStruct
+    public function setName(mixed $name): TpayTransactionConfigStruct
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * @param mixed $city
-     *
-     * @return TpayTransactionConfigStruct
-     */
-    public function setCity($city): TpayTransactionConfigStruct
-    {
-        $this->city = $city;
         return $this;
     }
 
@@ -161,11 +142,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $address
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setAddress($address): TpayTransactionConfigStruct
+    public function setAddress(mixed $address): TpayTransactionConfigStruct
     {
         $this->address = $address;
         return $this;
@@ -180,11 +159,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $zip
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setZip($zip): TpayTransactionConfigStruct
+    public function setZip(mixed $zip): TpayTransactionConfigStruct
     {
         $this->zip = $zip;
         return $this;
@@ -199,11 +176,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $return_url
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setReturnUrl($return_url): TpayTransactionConfigStruct
+    public function setReturnUrl(mixed $return_url): TpayTransactionConfigStruct
     {
         $this->return_url = $return_url;
         return $this;
@@ -218,11 +193,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $return_error_url
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setReturnErrorUrl($return_error_url): TpayTransactionConfigStruct
+    public function setReturnErrorUrl(mixed $return_error_url): TpayTransactionConfigStruct
     {
         $this->return_error_url = $return_error_url;
         return $this;
@@ -237,32 +210,21 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $result_url
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setResultUrl($result_url): TpayTransactionConfigStruct
+    public function setResultUrl(mixed $result_url): TpayTransactionConfigStruct
     {
         $this->result_url = $result_url;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getDirect(): int
     {
-        return $this->email;
+        return $this->direct;
     }
-
-    /**
-     * @param mixed $email
-     *
-     * @return TpayTransactionConfigStruct
-     */
-    public function setEmail($email): TpayTransactionConfigStruct
+    public function setDirect(int $direct): TpayTransactionConfigStruct
     {
-        $this->email = $email;
+        $this->direct = $direct;
         return $this;
     }
 
@@ -275,11 +237,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $language
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setLanguage($language): TpayTransactionConfigStruct
+    public function setLanguage(mixed $language): TpayTransactionConfigStruct
     {
         $this->language = $language;
         return $this;
@@ -294,11 +254,9 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $module
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setModule($module): TpayTransactionConfigStruct
+    public function setModule(mixed $module): TpayTransactionConfigStruct
     {
         $this->module = $module;
         return $this;
@@ -313,51 +271,11 @@ class TpayTransactionConfigStruct extends Struct
     }
 
     /**
-     * @param mixed $description
-     *
      * @return TpayTransactionConfigStruct
      */
-    public function setDescription($description): TpayTransactionConfigStruct
+    public function setDescription(mixed $description): TpayTransactionConfigStruct
     {
         $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param mixed $phone
-     *
-     * @return TpayTransactionConfigStruct
-     */
-    public function setPhone($phone): TpayTransactionConfigStruct
-    {
-        $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param mixed $country
-     *
-     * @return TpayTransactionConfigStruct
-     */
-    public function setCountry($country): TpayTransactionConfigStruct
-    {
-        $this->country = $country;
         return $this;
     }
 
@@ -378,6 +296,74 @@ class TpayTransactionConfigStruct extends Struct
         $this->country = $billingAddress->getCountry()->getTranslated()['name'];
         $this->phone = $this->getPhone();
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return TpayTransactionConfigStruct
+     */
+    public function setEmail(mixed $email): TpayTransactionConfigStruct
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return TpayTransactionConfigStruct
+     */
+    public function setCity(mixed $city): TpayTransactionConfigStruct
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @return TpayTransactionConfigStruct
+     */
+    public function setCountry(mixed $country): TpayTransactionConfigStruct
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @return TpayTransactionConfigStruct
+     */
+    public function setPhone(mixed $phone): TpayTransactionConfigStruct
+    {
+        $this->phone = $phone;
         return $this;
     }
 }

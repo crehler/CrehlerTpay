@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,36 +15,28 @@
 
 namespace Tpay\ShopwarePayment\Util\Lifecycle;
 
-
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Tpay\ShopwarePayment\TpayShopwarePayment;
 use Tpay\ShopwarePayment\Util\PaymentMethodUtil;
 use Tpay\ShopwarePayment\Util\Payments\BankTransfer;
 use Tpay\ShopwarePayment\Util\Payments\Blik;
-use Tpay\ShopwarePayment\Util\Payments\Card;
 use Tpay\ShopwarePayment\Util\TpayPaymentsCollection;
 
 class ActivateDeactivate
 {
-    /** @var EntityRepositoryInterface */
-    private $customFieldRepository;
-
-    /** @var EntityRepositoryInterface */
-    private $paymentMethodRepository;
-
-    /** @var PaymentMethodUtil */
-    private $paymentMethodUtil;
-
-    public function __construct(EntityRepositoryInterface $customFieldRepository, EntityRepositoryInterface $paymentMethodRepository, PaymentMethodUtil $paymentMethodUtil)
-    {
-        $this->customFieldRepository = $customFieldRepository;
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->paymentMethodUtil = $paymentMethodUtil;
+    public function __construct(
+        #[Autowire('@custom_field.repository')]
+        private readonly EntityRepository $customFieldRepository,
+        #[Autowire('@payment_method.repository')]
+        private readonly EntityRepository $paymentMethodRepository,
+        private readonly PaymentMethodUtil $paymentMethodUtil
+    ) {
     }
 
     public function activate(Context $context): void
@@ -50,10 +45,24 @@ class ActivateDeactivate
         $this->activateOrderTransactionCustomField($context);
     }
 
-    public function deactivate(Context $context): void
+    private function setPaymentMethodsIsActive(bool $active, Context $context): void
     {
-        $this->setPaymentMethodsIsActive(false, $context);
-        $this->deactivateOrderTransactionCustomField($context);
+        $tpayPaymentMethodsCollection = new TpayPaymentsCollection([
+            new Blik(),
+            new BankTransfer()
+        ]);
+
+        $tpayPaymentMethodsIds = $this->paymentMethodUtil->getTpayPaymentMethodsIds($tpayPaymentMethodsCollection, $context);
+
+        $updateData = [];
+        foreach ($tpayPaymentMethodsIds as $id) {
+            $updateData[] = [
+                'id' => $id,
+                'active' => $active,
+            ];
+        }
+
+        $this->paymentMethodRepository->update($updateData, $context);
     }
 
     private function activateOrderTransactionCustomField(Context $context): void
@@ -79,41 +88,6 @@ class ActivateDeactivate
         );
     }
 
-    private function deactivateOrderTransactionCustomField(Context $context): void
-    {
-        $customFieldIds = $this->getCustomFieldIds($context);
-
-        if ($customFieldIds->getTotal() === 0) {
-            return;
-        }
-
-        $ids = array_map(static function ($id) {
-            return ['id' => $id];
-        }, $customFieldIds->getIds());
-
-        $this->customFieldRepository->delete($ids, $context);
-    }
-
-    private function setPaymentMethodsIsActive(bool $active, Context $context): void
-    {
-        $tpayPaymentMethodsCollection = new TpayPaymentsCollection([
-            new Blik(),
-            new BankTransfer()
-        ]);
-
-        $tpayPaymentMethodsIds = $this->paymentMethodUtil->getTpayPaymentMethodsIds($tpayPaymentMethodsCollection, $context);
-
-        $updateData = [];
-        foreach ($tpayPaymentMethodsIds as $id) {
-            $updateData[] = [
-                'id' => $id,
-                'active' => $active,
-            ];
-        }
-
-        $this->paymentMethodRepository->update($updateData, $context);
-    }
-
     private function getCustomFieldIds(Context $context): IdSearchResult
     {
         $criteria = new Criteria();
@@ -126,5 +100,24 @@ class ActivateDeactivate
         ));
 
         return $this->customFieldRepository->searchIds($criteria, $context);
+    }
+
+    public function deactivate(Context $context): void
+    {
+        $this->setPaymentMethodsIsActive(false, $context);
+        $this->deactivateOrderTransactionCustomField($context);
+    }
+
+    private function deactivateOrderTransactionCustomField(Context $context): void
+    {
+        $customFieldIds = $this->getCustomFieldIds($context);
+
+        if ($customFieldIds->getTotal() === 0) {
+            return;
+        }
+
+        $ids = array_map(static fn($id) => ['id' => $id], $customFieldIds->getIds());
+
+        $this->customFieldRepository->delete($ids, $context);
     }
 }
