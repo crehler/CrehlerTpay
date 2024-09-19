@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,15 +15,12 @@
 
 namespace Tpay\ShopwarePayment\Component\TpayPayment\BankList;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Struct\ArrayStruct;
-use Shopware\Core\Framework\Struct\Collection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Slim\Http\StatusCode;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
@@ -30,27 +30,14 @@ use Tpay\ShopwarePayment\Util\Payments\Card;
 
 class TpayBankListClient implements TpayBankListInterface
 {
-
     private const BANK_LIST_CACHE_KEY = 'TpayShopwarePayment_Bank_List';
 
     private const BANK_LIST_CACHE_LIFETIME = 3600;
 
     private const TPAY_ENDPOINT = 'https://secure.tpay.com/';
 
-    /** @var PhpArrayAdapter */
-    private $cache;
-
-    /** @var ConfigServiceInterface */
-    private $configService;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(PhpArrayAdapter $cache, ConfigServiceInterface $configService, LoggerInterface $logger)
+    public function __construct(private readonly PhpArrayAdapter $cache, private readonly ConfigServiceInterface $configService, private readonly LoggerInterface $logger)
     {
-        $this->cache = $cache;
-        $this->configService = $configService;
-        $this->logger = $logger;
     }
 
     public function getBankList(SalesChannelContext $salesChannelContext): ArrayStruct
@@ -64,10 +51,9 @@ class TpayBankListClient implements TpayBankListInterface
 
         try {
             $bankList = $this->cache->get(
-                self::BANK_LIST_CACHE_KEY . '_' . $tpayConfig->getMerchantId(),
-                static function () use ($tpayConfig): array {
-                    return self::getBankListRaw($tpayConfig);
-                }, self::BANK_LIST_CACHE_LIFETIME
+                self::BANK_LIST_CACHE_KEY . '_' . $tpayConfig->getMerchantId() . '_' . $tpayConfig->getChannels(),
+                static fn(): array => self::getBankListRaw($tpayConfig),
+                self::BANK_LIST_CACHE_LIFETIME
             ) ?? [];
         } catch (InvalidArgumentException $exception) {
             $this->logger->warning('An error occurred while loading Tpau bank list from Shopware cache.' . PHP_EOL . $exception->getMessage());
@@ -88,10 +74,10 @@ class TpayBankListClient implements TpayBankListInterface
 
         $url = self::TPAY_ENDPOINT . 'groups-' . $tpayConfig->getMerchantID() . $tpayConfig->getChannels() . '.js?json';
         try {
-	        $response = $client->get($url);
-	        $responseBody = $response->getBody()->getContents();
-        } catch (ClientException $e) {
-        	$responseBody = '';
+            $response = $client->get($url);
+            $responseBody = $response->getBody()->getContents();
+        } catch (ClientException) {
+            $responseBody = '';
         }
 
 

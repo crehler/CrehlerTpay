@@ -2,7 +2,6 @@
 
 namespace Tpay\ShopwarePayment\Payment\SalesChannel\Page;
 
-
 use Shopware\Storefront\Page\Page;
 
 class TpayCheckPaymentPage extends Page
@@ -19,9 +18,6 @@ class TpayCheckPaymentPage extends Page
         return $this->orderId;
     }
 
-    /**
-     * @param string $orderId
-     */
     public function setOrderId(string $orderId): void
     {
         $this->orderId = $orderId;
@@ -35,9 +31,6 @@ class TpayCheckPaymentPage extends Page
         return $this->transactionId;
     }
 
-    /**
-     * @param string $transactionId
-     */
     public function setTransactionId(string $transactionId): void
     {
         $this->transactionId = $transactionId;

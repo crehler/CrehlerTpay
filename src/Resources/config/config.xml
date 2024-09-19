@@ -55,13 +55,13 @@
             <helpText lang="pl-PL">Pokaż wszystkie dostępne kanały płatności lub pokaż kanały płatności dostępne tylko online - w przypadku kanałów płatności online rezerwacja jest dokonywana bardzo szybko</helpText>
             <options>
                 <option>
-                    <id>0</id>
+                    <id>1</id>
                     <name>Online Only</name>
                     <name lang="de-DE">Nur online</name>
                     <name lang="pl-PL">Tylko Online</name>
                 </option>
                 <option>
-                    <id>1</id>
+                    <id>0</id>
                     <name>All</name>
                     <name lang="de-DE">Alle</name>
                     <name lang="pl-PL">Wszystkie</name>
@@ -87,7 +87,7 @@
         </input-field>
 
         <input-field type="bool">
-            <name>isVerificationSenderIpAddressOfPaymentNotification</name>
+            <name>verificationSenderIpAddressOfPaymentNotification</name>
             <label>Verification of the IP-address of the sender</label>
             <label lang="de-DE">Überprüfung der IP-Adresse des Absenders</label>
             <label lang="pl-PL">Weryfikacja adresu IP nadawcy powiadomienia o wpłacie</label>
@@ -100,6 +100,14 @@
             <label lang="de-DE">Wartezeit [minuten]</label>
             <label lang="pl-PL">Czas oczekiwania [min]</label>
             <defaultValue>2</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>showTpayBankListInOnlineBankTransferPaymentMethodAfterSelectingIt</name>
+            <label>Show Tpay bank list in online bank transfer payment method after selecting it</label>
+            <label lang="de-DE">Zeigen Sie die Tpay-Bankliste in der Zahlungsmethode Online-Überweisung an, nachdem Sie sie ausgewählt haben</label>
+            <label lang="pl-PL">Pokaż listę banków Tpay w metodzie płatności przelewem bankowym online po jej zaznaczeniu</label>
+            <defaultValue>false</defaultValue>
         </input-field>
     </card>
 </config>

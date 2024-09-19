@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,8 +15,7 @@
 
 namespace Tpay\ShopwarePayment\Subscriber;
 
-
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,20 +25,11 @@ use Tpay\ShopwarePayment\TpayShopwarePayment;
 
 class SalesChannelContextSwitch implements EventSubscriberInterface
 {
-    /** @var TpayBankListInterface */
-    private $bankListService;
-
-    /** @var EntityRepositoryInterface */
-    private $customerRepository;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    public function __construct(TpayBankListInterface $bankListService, EntityRepositoryInterface $customerRepository, RequestStack $requestStack)
-    {
-        $this->bankListService = $bankListService;
-        $this->customerRepository = $customerRepository;
-        $this->requestStack = $requestStack;
+    public function __construct(
+        private readonly TpayBankListInterface $bankListService,
+        private readonly EntityRepository $customerRepository,
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     public static function getSubscribedEvents(): array

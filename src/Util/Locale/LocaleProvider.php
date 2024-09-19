@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,9 +15,8 @@
 
 namespace Tpay\ShopwarePayment\Util\Locale;
 
-
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\Language\LanguageCollection;
 use tpayLibs\src\Dictionaries\FieldsConfigDictionary;
@@ -23,17 +25,10 @@ use WhiteCube\Lingua\Service;
 
 class LocaleProvider
 {
+    final public const DEFAULT_LANGUAGE = 'EN';
 
-    const DEFAULT_LANGUAGE = 'EN';
-
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $languageRepository;
-
-    public function __construct(EntityRepositoryInterface $languageRepository)
+    public function __construct(private readonly EntityRepository $languageRepository)
     {
-        $this->languageRepository = $languageRepository;
     }
 
     public function getLocaleCodeFromContext(Context $context): string
@@ -71,6 +66,6 @@ class LocaleProvider
             return self::DEFAULT_LANGUAGE;
         }
 
-        return strtoupper($tpayLocale->toISO_639_1());
+        return strtoupper((string)$tpayLocale->toISO_639_1());
     }
 }

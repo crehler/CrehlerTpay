@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,12 +15,10 @@
 
 namespace Tpay\ShopwarePayment\Payment;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Exception\CustomerNotLoggedInException;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -31,23 +32,19 @@ class CardPaymentHandler implements AsynchronousPaymentHandlerInterface
 {
     use TpayResponseHandlerTrait;
 
-    /** @var PaymentBuilderInterface */
-    private $cardPaymentBuilder;
-
     /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    public function __construct(PaymentBuilderInterface $cardPaymentBuilder, LoggerInterface $logger)
+    public function __construct(private readonly PaymentBuilderInterface $cardPaymentBuilder, LoggerInterface $logger)
     {
-        $this->cardPaymentBuilder = $cardPaymentBuilder;
         $this->logger = $logger;
     }
 
     /**
      * @inheritDoc
      */
-	public function pay(AsyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): RedirectResponse
-	{
+    public function pay(AsyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): RedirectResponse
+    {
         Util::$loggingEnabled = false;
 
         $customer = $salesChannelContext->getCustomer();
@@ -66,17 +63,17 @@ class CardPaymentHandler implements AsynchronousPaymentHandlerInterface
             $this->logger->error('Tpay connection error' . PHP_EOL . $exception->getMessage());
         }
 
-		throw new AsyncPaymentProcessException($transaction->getOrderTransaction()->getId(), 'Tpay transaction error');
-	}
+        throw new AsyncPaymentProcessException($transaction->getOrderTransaction()->getId(), 'Tpay transaction error');
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
-	{
+    /**
+     * @inheritDoc
+     */
+    public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
+    {
         /**
          * @See Tpay\ShopwarePayment\Payment\FinalizePaymentController
          * Nothing to do here.
          */
-	}
+    }
 }

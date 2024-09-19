@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,19 +15,18 @@
 
 namespace Tpay\ShopwarePayment\Util;
 
-
 use Shopware\Core\System\CustomField\CustomFieldTypes;
 
 class TpayCustomFieldsUtil
 {
-    public const CUSTOMER_CUSTOM_FIELDS = [
+    final public const CUSTOMER_CUSTOM_FIELDS = [
         [
             'name' => 'tpay_default_payment_selected_bank',
             'type' => CustomFieldTypes::JSON,
         ],
     ];
 
-    public const ORDER_CUSTOM_FIELDS = [
+    final public const ORDER_CUSTOM_FIELDS = [
         [
             'name' => 'tpay_order_transaction_id',
             'type' => CustomFieldTypes::INT,

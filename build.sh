@@ -20,9 +20,9 @@ echo -e "\e[39m=================================================================
 echo -e "\e[39m "
 echo -e "Step 2 of 7 \e[33mBuild\e[39m"
 cd ../../../
-./bin/build-storefront.sh
-./bin/build-administration.sh
-cd custom/plugins/TpayShopwarePayment/
+#./bin/build-storefront.sh
+#./bin/build-administration.sh
+cd custom/static-plugins/tpayshopwarepayment/
 echo -e "\e[32mOK"
 
 echo -e "\e[39m "

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,35 +15,21 @@
 
 namespace Tpay\ShopwarePayment\Util;
 
-
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Tpay\ShopwarePayment\Util\Payments\Payment;
 
-
 class PaymentMethodUtil
 {
-    /** @var EntityRepositoryInterface  */
-    private $paymentRepository;
-
-    /** @var EntityRepositoryInterface */
-    private $ruleRepository;
-
-    /** @var EntityRepositoryInterface */
-    private $currencyRepository;
-
     public function __construct(
-        EntityRepositoryInterface $paymentRepository,
-        EntityRepositoryInterface $ruleRepository,
-        EntityRepositoryInterface $currencyRepository
+        private readonly EntityRepository $paymentRepository,
+        private readonly EntityRepository $ruleRepository,
+        private readonly EntityRepository $currencyRepository
     ) {
-        $this->paymentRepository = $paymentRepository;
-        $this->ruleRepository = $ruleRepository;
-        $this->currencyRepository = $currencyRepository;
     }
 
     public function getTpayPaymentMethodsPreparedToUpdate(TpayPaymentsCollection $collection, Context $context): ?TpayPaymentsCollection
@@ -51,14 +40,6 @@ class PaymentMethodUtil
         $tPayPaymentsMethodsAlreadyInstalled = $this->paymentRepository->search($criteria, $context)->getEntities();
 
         return $this->getTpayPaymentMethodsCollection($collection, $tPayPaymentsMethodsAlreadyInstalled, $context);
-    }
-
-    public function getTpayPaymentMethodsIds(TpayPaymentsCollection $collection, Context $context): array
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsAnyFilter('handlerIdentifier', $collection->getAllHandlerIdentifiers()));
-
-        return $this->paymentRepository->searchIds($criteria, $context)->getIds();
     }
 
     private function getTpayPaymentMethodsCollection(TpayPaymentsCollection $collection, EntityCollection $tPayPaymentsMethodsAlreadyInstalled, Context $context): TpayPaymentsCollection
@@ -72,8 +53,7 @@ class PaymentMethodUtil
         }
 
         /** @var PaymentMethodEntity $data */
-        foreach ($tPayPaymentsMethodsAlreadyInstalled as $data)
-        {
+        foreach ($tPayPaymentsMethodsAlreadyInstalled as $data) {
             /** @var Payment $payment */
             foreach ($collection as $payment) {
                 if ($data->getHandlerIdentifier() === $payment->getHandlerIdentifier()) {
@@ -86,5 +66,13 @@ class PaymentMethodUtil
             }
         }
         return $collection;
+    }
+
+    public function getTpayPaymentMethodsIds(TpayPaymentsCollection $collection, Context $context): array
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsAnyFilter('handlerIdentifier', $collection->getAllHandlerIdentifiers()));
+
+        return $this->paymentRepository->searchIds($criteria, $context)->getIds();
     }
 }

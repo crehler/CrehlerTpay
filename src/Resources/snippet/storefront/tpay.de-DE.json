@@ -6,7 +6,7 @@
             }
         },
         "checkout": {
-            "confirmTerms": "Ich akzeptiere die <a data-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Bestimmungen\">Bestimmungen</a> Tpay."
+            "confirmTerms": "Ich akzeptiere die <a data-bs-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Bestimmungen\">Bestimmungen</a> Tpay."
         },
         "blik": {
             "labelEnterBlikCode": "Eingabe BlikCode:",

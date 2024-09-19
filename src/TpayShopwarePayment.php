@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -24,7 +27,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Tpay\ShopwarePayment\Util\Lifecycle\ActivateDeactivate;
 use Tpay\ShopwarePayment\Util\Lifecycle\InstallUninstall;
-use tpayLibs\src\_class_tpay\Utilities\Util;
 
 // SWAG-133666
 if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
@@ -33,35 +35,36 @@ if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
 
 class TpayShopwarePayment extends Plugin
 {
-    public const ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID = 'tpay_shopware_payment_transaction_id';
+    final public const ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID = 'tpay_shopware_payment_transaction_id';
 
-    public const CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK = 'tpay_default_payment_selected_bank';
+    final public const CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK = 'tpay_default_payment_selected_bank';
 
-    /**
-     * @var ActivateDeactivate
-     */
-    private $activateDeactivate;
+    private ?ActivateDeactivate $activateDeactivate = null;
 
     /**
      * @Required
-     *
-     * @param ActivateDeactivate $activateDeactivate
      */
     public function setActivateDeactivate(ActivateDeactivate $activateDeactivate): void
     {
         $this->activateDeactivate = $activateDeactivate;
     }
 
+    public function executeComposerCommands(): bool
+    {
+        return true;
+    }
+
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
-        
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $loader->load('util.xml');
         $loader->load('payment.xml');
         $loader->load('config.xml');
         $loader->load('subscriber.xml');
         $loader->load('component.xml');
+        $loader->load('validator.xml');
         $loader->load('webhook.xml');
         $loader->load('entity.xml');
     }
@@ -75,7 +78,8 @@ class TpayShopwarePayment extends Plugin
             $this->container->get('currency.repository'),
             $this->container->get('language.repository'),
             $this->container->get(PluginIdProvider::class),
-            \get_class($this)))->install($installContext->getContext());
+            static::class
+        ))->install($installContext->getContext());
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -87,7 +91,8 @@ class TpayShopwarePayment extends Plugin
             $this->container->get('currency.repository'),
             $this->container->get('language.repository'),
             $this->container->get(PluginIdProvider::class),
-            \get_class($this)))->uninstall($uninstallContext);
+            static::class
+        ))->uninstall($uninstallContext);
     }
 
     public function activate(ActivateContext $activateContext): void

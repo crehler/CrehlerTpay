@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,9 +15,7 @@
 
 namespace Tpay\ShopwarePayment\Config\Service;
 
-
 interface MerchantCredentialsServiceInterface
 {
     public function testMerchantCredentials(int $merchantId, string $merchantSecret, string $merchantTrApiKey, string $merchantTrApiPass): bool;
-
 }

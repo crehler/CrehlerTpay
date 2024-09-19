@@ -7,5 +7,5 @@ const PluginManager = window.PluginManager;
 
 PluginManager.register('TpayPaymentBankSelection', TpayPaymentBankSelectionPlugin, '[data-tpay-bank-selection]');
 PluginManager.register('TpayBlikMask', TpayBlikMaskPlugin, '.blik--input');
-PluginManager.register('TpayBlik', TpayBlikPlugin, '[data-tpay-blik');
+PluginManager.register('TpayBlik', TpayBlikPlugin, '[data-tpay-blik]');
 PluginManager.register('TpayPaymentCheck', TpayPaymentCheckPlugin, '[data-tpay-payment-check]');

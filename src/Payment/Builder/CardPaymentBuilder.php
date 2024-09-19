@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -11,7 +14,6 @@
  */
 
 namespace Tpay\ShopwarePayment\Payment\Builder;
-
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -27,6 +29,6 @@ class CardPaymentBuilder extends AbstractPaymentBuilder
         $tpayTransactionConfig = parent::getTpayTransactionConfig($transaction, $order, $customer, $salesChannelContext);
         $tpayTransactionConfig->setGroup(Card::ID);
 
-       return $tpayTransactionConfig;
+        return $tpayTransactionConfig;
     }
 }

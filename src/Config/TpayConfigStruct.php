@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -11,7 +14,6 @@
  */
 
 namespace Tpay\ShopwarePayment\Config;
-
 
 use Shopware\Core\Framework\Struct\Struct;
 
@@ -43,12 +45,9 @@ class TpayConfigStruct extends Struct
      */
     public function getMerchantId(): int
     {
-        return (int) $this->merchantId;
+        return (int)$this->merchantId;
     }
 
-    /**
-     * @param string $merchantId
-     */
     public function setMerchantId(string $merchantId): void
     {
         $this->merchantId = $merchantId;
@@ -62,9 +61,6 @@ class TpayConfigStruct extends Struct
         return $this->merchantSecret;
     }
 
-    /**
-     * @param string $merchantSecret
-     */
     public function setMerchantSecret(string $merchantSecret): void
     {
         $this->merchantSecret = $merchantSecret;
@@ -78,9 +74,6 @@ class TpayConfigStruct extends Struct
         return $this->merchantTrApiKey;
     }
 
-    /**
-     * @param string $merchantTrApiKey
-     */
     public function setMerchantTransactionApiKey(string $merchantTrApiKey): void
     {
         $this->merchantTrApiKey = $merchantTrApiKey;
@@ -94,9 +87,6 @@ class TpayConfigStruct extends Struct
         return $this->merchantTrApiPass;
     }
 
-    /**
-     * @param string $merchantTrApiPass
-     */
     public function setMerchantTransactionApiPassword(string $merchantTrApiPass): void
     {
         $this->merchantTrApiPass = $merchantTrApiPass;
@@ -107,12 +97,9 @@ class TpayConfigStruct extends Struct
      */
     public function getChannels(): int
     {
-        return (int) $this->channels;
+        return (int)$this->channels;
     }
 
-    /**
-     * @param int $channels
-     */
     public function setChannels(int $channels): void
     {
         $this->channels = $channels;
@@ -126,9 +113,6 @@ class TpayConfigStruct extends Struct
         return $this->redirectDirectlyToTheBank;
     }
 
-    /**
-     * @param bool $redirectDirectlyToTheBank
-     */
     public function setRedirectDirectlyToTheBank(bool $redirectDirectlyToTheBank): void
     {
         $this->redirectDirectlyToTheBank = $redirectDirectlyToTheBank;
@@ -142,12 +126,8 @@ class TpayConfigStruct extends Struct
         return $this->verificationSenderIpAddressOfPaymentNotification;
     }
 
-    /**
-     * @param bool $verificationSenderIpAddressOfPaymentNotification
-     */
     public function setVerificationSenderIpAddressOfPaymentNotification(bool $verificationSenderIpAddressOfPaymentNotification): void
     {
         $this->verificationSenderIpAddressOfPaymentNotification = $verificationSenderIpAddressOfPaymentNotification;
     }
-
 }

@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,32 +15,27 @@
 
 namespace Tpay\ShopwarePayment\Payment;
 
-
 use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentFinalizeException;
 use Shopware\Core\Checkout\Payment\Exception\CustomerCanceledAsyncPaymentException;
 use Shopware\Core\Checkout\Payment\Exception\InvalidTransactionException;
 use Shopware\Core\Checkout\Payment\Exception\TokenExpiredException;
 use Shopware\Core\Checkout\Payment\Exception\UnknownPaymentMethodException;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route(defaults={"_routeScope"={"storefront"}})
+ */
 class FinalizePaymentController extends AbstractController
 {
-   /** @var TpayPaymentService  */
-    private $paymentService;
-
-    public function __construct(TpayPaymentService $paymentService)
+    public function __construct(private readonly TpayPaymentService $paymentService)
     {
-        $this->paymentService = $paymentService;
     }
 
     /**
-     * @RouteScope(scopes={"storefront"})
-     * @Route("/tpay/finalize-transaction", defaults={"auth_required"=false}, name="tpay.finalize.transaction", methods={"GET"})
      *
      * @throws AsyncPaymentFinalizeException
      * @throws CustomerCanceledAsyncPaymentException
@@ -45,6 +43,7 @@ class FinalizePaymentController extends AbstractController
      * @throws TokenExpiredException
      * @throws UnknownPaymentMethodException
      */
+    #[Route(path: '/tpay/finalize-transaction', defaults: ['auth_required' => false, '_routeScope' => ['storefront']], name: 'tpay.finalize.transaction', methods: ['GET'])]
     public function finalizeTransaction(Request $request, SalesChannelContext $salesChannelContext): Response
     {
         $paymentToken = $request->get('_sw_payment_token');

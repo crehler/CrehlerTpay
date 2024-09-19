@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Config\Util;
 
-
 use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
 
 class TestCredentialsTransaction
@@ -22,9 +24,8 @@ class TestCredentialsTransaction
         return (new TpayTransactionConfigStruct())
             ->setAmount(100)
             ->setGroup(150)
-	        ->setEmail('test@example.com')
+            ->setEmail('test@example.com')
             ->setName('TEST MERCHANT CREDENTIALS BY SHOPWARE')
             ->setDescription('TEST MERCHANT CREDENTIALS BY SHOPWARE');
     }
-
 }
