@@ -13,13 +13,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config;
+namespace Crehler\TpayShopwarePayment\Config;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Config\Service\MerchantCredentialsServiceInterface;
+use Crehler\TpayShopwarePayment\Config\Service\MerchantCredentialsServiceInterface;
 use tpayLibs\src\_class_tpay\Utilities\Util;
 
 #[Route(defaults: ['_routeScope' => ['api']])]

@@ -13,15 +13,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Subscriber;
+namespace Crehler\TpayShopwarePayment\Subscriber;
 
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
-use Tpay\ShopwarePayment\Util\Payments\BankTransfer;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
+use Crehler\TpayShopwarePayment\Util\Payments\BankTransfer;
 
 class PagePaymentSearch implements EventSubscriberInterface
 {

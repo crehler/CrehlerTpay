@@ -13,9 +13,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Util\Payments;
+namespace Crehler\TpayShopwarePayment\Util\Payments;
 
-use Tpay\ShopwarePayment\Payment\BankTransferPaymentHandler;
+use Crehler\TpayShopwarePayment\Payment\BankTransferPaymentHandler;
 
 class BankTransfer extends Payment
 {

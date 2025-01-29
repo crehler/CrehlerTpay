@@ -5,13 +5,13 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Tpay\ShopwarePayment\Subscriber\PagePaymentSearch">
-            <argument type="service" id="Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient"/>
+        <service id="Crehler\TpayShopwarePayment\Subscriber\PagePaymentSearch">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Subscriber\SalesChannelContextSwitch">
-            <argument type="service" id="Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient"/>
+        <service id="Crehler\TpayShopwarePayment\Subscriber\SalesChannelContextSwitch">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient"/>
             <argument type="service" id="customer.repository"/>
             <argument type="service" id="request_stack"/>
             <tag name="kernel.event_subscriber"/>

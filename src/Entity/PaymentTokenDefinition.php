@@ -1,6 +1,6 @@
 <?php
 
-namespace Tpay\ShopwarePayment\Entity;
+namespace Crehler\TpayShopwarePayment\Entity;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;

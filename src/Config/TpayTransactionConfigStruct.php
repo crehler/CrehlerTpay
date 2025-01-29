@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config;
+namespace Crehler\TpayShopwarePayment\Config;
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Struct\Struct;

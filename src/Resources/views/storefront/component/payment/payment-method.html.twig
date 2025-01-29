@@ -3,6 +3,7 @@
   {% block component_payment_method_description %}
       <div class="payment-method-description">
           <strong>{{ payment.translated.name }}</strong>
+
           {% if payment.translated.description %}
               {% set paymentDescription = payment.translated.description|raw %}
 
@@ -13,7 +14,7 @@
               <p title="{{ payment.translated.description|raw }}">{{ paymentDescription }}</p>
           {% endif %}
 
-          {% set showTpayBankListAfterSelect = config('TpayShopwarePayment.config.showTpayBankListInOnlineBankTransferPaymentMethodAfterSelectingIt') %}
+          {% set showTpayBankListAfterSelect = config('CrehlerTpayShopwarePayment.config.showTpayBankListInOnlineBankTransferPaymentMethodAfterSelectingIt') %}
 
           {% if
               payment.hasExtension('tpayBankList')
@@ -21,11 +22,12 @@
                 false == showTpayBankListAfterSelect
                 or (
                   true == showTpayBankListAfterSelect
-                  and 'Tpay\\ShopwarePayment\\Payment\\BankTransferPaymentHandler' == payment.handlerIdentifier
+                  and 'Crehler\\TpayShopwarePayment\\Payment\\BankTransferPaymentHandler' == payment.handlerIdentifier
                   and selectedPaymentMethodId == payment.id
                 )
               )
           %}
+
               {% sw_include "@TpayShopwarePayment/storefront/component/payment/tpay-bank-selection.html.twig" with {
                   bankList: payment.getExtension('tpayBankList').all(),
                   customer: context.customer

@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment;
+namespace Crehler\TpayShopwarePayment\Payment;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\CartException;
@@ -25,8 +25,9 @@ use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Request;
-use Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilderInterface;
-use Tpay\ShopwarePayment\Payment\Exception\InvalidBlikCodeException;
+use Crehler\TpayShopwarePayment\Payment\Builder\BlikPaymentBuilderInterface;
+use Crehler\TpayShopwarePayment\Payment\Exception\InvalidBlikCodeException;
+use tpayLibs\src\_class_tpay\Utilities\TException;
 use tpayLibs\src\_class_tpay\Utilities\Util;
 
 class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
@@ -56,12 +57,28 @@ class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
             );
         }
 
-        $responseBlik = $this->blikPaymentBuilder->createBlikTransaction($transaction, $salesChannelContext, $customer, $dataBag->getDigits('blikCode'));
+        try {
+            $responseBlik = $this->blikPaymentBuilder->createBlikTransaction(
+                $transaction,
+                $salesChannelContext,
+                $customer,
+                $dataBag->getDigits('blikCode')
+            );
+
+        } catch (\Throwable $exception) {
+            $this->logger->error('Tpay blik error' . PHP_EOL . $exception->getMessage());
+
+            throw PaymentException::syncProcessInterrupted(
+                orderTransactionId: $transaction->getOrderTransaction()->getId(),
+                errorMessage: $exception->getMessage()
+            );
+        }
 
         if (isset($responseBlik['result']) && (int)$responseBlik['result'] !== 1) {
             if ($responseBlik['err'] === 'ERR63') {
                 throw new InvalidBlikCodeException();
             }
+
             $this->tpayResponseError($responseBlik, $transaction);
         }
     }
@@ -72,7 +89,7 @@ class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
     public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
     {
         /**
-         * @See Tpay\ShopwarePayment\Payment\FinalizePaymentController
+         * @See Crehler\TpayShopwarePayment\Payment\FinalizePaymentController
          * Nothing to do here.
          */
     }

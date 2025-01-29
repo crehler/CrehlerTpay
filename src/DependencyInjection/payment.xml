@@ -7,28 +7,28 @@
     <services>
 
         <!-- Payments Handlers -->
-        <service id="Tpay\ShopwarePayment\Payment\BlikPaymentHandler">
-            <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilder"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\BlikPaymentHandler">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Payment\Builder\BlikPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
             <tag name="shopware.payment.method.sync"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\BankTransferPaymentHandler">
-            <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\BankTransferPaymentBuilder"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\BankTransferPaymentHandler">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Payment\Builder\BankTransferPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
             <tag name="shopware.payment.method.async"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\CardPaymentHandler">
-            <argument type="service" id="Tpay\ShopwarePayment\Payment\Builder\CardPaymentBuilder"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\CardPaymentHandler">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Payment\Builder\CardPaymentBuilder"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
             <tag name="shopware.payment.method.async"/>
         </service>
 
         <!-- Builders -->
-        <service id="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory">
-            <argument type="service" id="Tpay\ShopwarePayment\Config\Service\ConfigService"/>
-            <argument type="service" id="Tpay\ShopwarePayment\Util\Locale\LocaleProvider"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\Builder\PaymentBuilderFactory">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Config\Service\ConfigService"/>
+            <argument type="service" id="Crehler\TpayShopwarePayment\Util\Locale\LocaleProvider"/>
             <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\Token\JWTFactoryV2"/>
             <argument type="service" id="router"/>
             <argument type="service" id="Shopware\Core\Framework\Adapter\Translation\Translator"/>
@@ -37,21 +37,21 @@
             <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\Builder\CardPaymentBuilder">
-            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createCardBuilder"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\Builder\CardPaymentBuilder">
+            <factory service="Crehler\TpayShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createCardBuilder"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\Builder\BankTransferPaymentBuilder">
-            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory"
+        <service id="Crehler\TpayShopwarePayment\Payment\Builder\BankTransferPaymentBuilder">
+            <factory service="Crehler\TpayShopwarePayment\Payment\Builder\PaymentBuilderFactory"
                      method="createBankTransferBuilder"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilder">
-            <factory service="Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createBlikBuilder"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\Builder\BlikPaymentBuilder">
+            <factory service="Crehler\TpayShopwarePayment\Payment\Builder\PaymentBuilderFactory" method="createBlikBuilder"/>
         </service>
 
         <!-- StoreApi -->
-        <service id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute" >
+        <service id="Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute" >
             <argument type="service" id="Shopware\Storefront\Framework\Routing\Router"/>
             <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderService"/>
             <argument type="service" id="Shopware\Core\Checkout\Payment\PaymentService"/>
@@ -63,34 +63,34 @@
             <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\SetPaymentOrderRoute"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute" >
+        <service id="Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute" >
             <argument type="service" id="order_transaction.repository"/>
         </service>
 
         <!-- Controllers -->
-        <service id="Tpay\ShopwarePayment\Payment\FinalizePaymentController" public="true">
-            <argument type="service" id="Tpay\ShopwarePayment\Payment\TpayPaymentService"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\FinalizePaymentController" public="true">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Payment\TpayPaymentService"/>
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\SalesChannel\BlikPaymentController" public="true">
-            <argument type="service" id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\SalesChannel\BlikPaymentController" public="true">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentRoute"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\SalesChannel\TpayCheckPaymentController" public="true">
-            <argument type="service" id="Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute"/>
+        <service id="Crehler\TpayShopwarePayment\Payment\SalesChannel\TpayCheckPaymentController" public="true">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRoute"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Payment\SalesChannel\TpayPaymentController" public="true">
+        <service id="Crehler\TpayShopwarePayment\Payment\SalesChannel\TpayPaymentController" public="true">
             <argument type="service" id="tpay_payment_tokens.repository"/>
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
@@ -105,7 +105,7 @@
         </service>
 
         <!-- Service -->
-        <service id="Tpay\ShopwarePayment\Payment\TpayPaymentService">
+        <service id="Crehler\TpayShopwarePayment\Payment\TpayPaymentService">
             <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\Token\JWTFactoryV2"/>
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>

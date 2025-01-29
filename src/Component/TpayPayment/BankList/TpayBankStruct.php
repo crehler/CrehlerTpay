@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Component\TpayPayment\BankList;
+namespace Crehler\TpayShopwarePayment\Component\TpayPayment\BankList;
 
 use Shopware\Core\Framework\Struct\Struct;
 

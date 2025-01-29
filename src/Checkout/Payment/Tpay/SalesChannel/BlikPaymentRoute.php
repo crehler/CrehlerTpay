@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel;
+namespace Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel;
 
 use Shopware\Core\Checkout\Cart\CartException;
 use Shopware\Core\Checkout\Cart\Error\Error;
@@ -34,8 +34,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Payment\Builder\BlikPaymentBuilder;
-use Tpay\ShopwarePayment\Payment\Exception\InvalidBlikCodeException;
+use Crehler\TpayShopwarePayment\Payment\Builder\BlikPaymentBuilder;
+use Crehler\TpayShopwarePayment\Payment\Exception\InvalidBlikCodeException;
 
 #[Route(defaults: ['_routeScope' => ['store-api']])]
 class BlikPaymentRoute extends AbstractBlikPaymentRoute
@@ -73,7 +73,6 @@ class BlikPaymentRoute extends AbstractBlikPaymentRoute
                 'Customer is not logged in.'
             );
         }
-
         $orderId = '';
         try {
             $this->addAffiliateTracking($dataBag, $request->getSession());
@@ -89,7 +88,7 @@ class BlikPaymentRoute extends AbstractBlikPaymentRoute
         } catch (ConstraintViolationException | Error) {
         } catch (PaymentException $e) {
             $request->getSession()->remove(BlikPaymentBuilder::BLIK_TRANSACTION_SESSION_KEY);
-            throw $e;
+            return new BlikPaymentTransactionRouteResponse(false, $orderId, null, false, $e->getMessage());
         }
 
         $request->getSession()->remove(BlikPaymentBuilder::BLIK_TRANSACTION_SESSION_KEY);

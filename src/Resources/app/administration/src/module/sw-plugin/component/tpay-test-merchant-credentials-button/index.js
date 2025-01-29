@@ -13,7 +13,7 @@ import template from './tpay-test-merchant-credentials-button.html.twig';
 
 const {Component, Mixin} = Shopware;
 
-const TPAY_CONFIG_NAMESPACE = 'TpayShopwarePayment.config.';
+const TPAY_CONFIG_NAMESPACE = 'CrehlerTpayShopwarePayment.config.';
 
 
 Component.register('tpay-test-merchant-credentials-button', {
@@ -38,7 +38,7 @@ Component.register('tpay-test-merchant-credentials-button', {
     methods: {
         tpayTestMerchantCredentials() {
             this.isLoading = true;
-            this.systemConfigApiService.getValues('TpayShopwarePayment.config', null)
+            this.systemConfigApiService.getValues('CrehlerTpayShopwarePayment.config', null)
                 .then(values => {
                     this.fields = values;
 
@@ -117,7 +117,7 @@ Component.register('tpay-test-merchant-credentials-button', {
         },
 
         getValue(name) {
-            const field = this.fields['TpayShopwarePayment.config.' + name];
+            const field = this.fields['CrehlerTpayShopwarePayment.config.' + name];
             return field;
         }
     }

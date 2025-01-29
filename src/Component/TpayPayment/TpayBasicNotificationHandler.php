@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Component\TpayPayment;
+namespace Crehler\TpayShopwarePayment\Component\TpayPayment;
 
 use tpayLibs\src\_class_tpay\Notifications\BasicNotificationHandler;
 use tpayLibs\src\_class_tpay\Utilities\TException;

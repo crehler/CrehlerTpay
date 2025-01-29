@@ -13,9 +13,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config\Service;
+namespace Crehler\TpayShopwarePayment\Config\Service;
 
-use Tpay\ShopwarePayment\Config\TpayConfigStruct;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStruct;
 
 interface ConfigServiceInterface
 {

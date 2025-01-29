@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Component\TpayPayment\BankList;
+namespace Crehler\TpayShopwarePayment\Component\TpayPayment\BankList;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -22,15 +22,15 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
-use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
-use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
-use Tpay\ShopwarePayment\Config\TpayConfigStruct;
-use Tpay\ShopwarePayment\Util\Payments\Blik;
-use Tpay\ShopwarePayment\Util\Payments\Card;
+use Crehler\TpayShopwarePayment\Config\Exception\TpayConfigInvalidException;
+use Crehler\TpayShopwarePayment\Config\Service\ConfigServiceInterface;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStruct;
+use Crehler\TpayShopwarePayment\Util\Payments\Blik;
+use Crehler\TpayShopwarePayment\Util\Payments\Card;
 
 class TpayBankListClient implements TpayBankListInterface
 {
-    private const BANK_LIST_CACHE_KEY = 'TpayShopwarePayment_Bank_List';
+    private const BANK_LIST_CACHE_KEY = 'CrehlerTpayShopwarePayment_Bank_List';
 
     private const BANK_LIST_CACHE_LIFETIME = 3600;
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Util\Lifecycle;
+namespace Crehler\TpayShopwarePayment\Util\Lifecycle;
 
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -22,11 +22,11 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Tpay\ShopwarePayment\TpayShopwarePayment;
-use Tpay\ShopwarePayment\Util\PaymentMethodUtil;
-use Tpay\ShopwarePayment\Util\Payments\BankTransfer;
-use Tpay\ShopwarePayment\Util\Payments\Blik;
-use Tpay\ShopwarePayment\Util\TpayPaymentsCollection;
+use Crehler\TpayShopwarePayment\CrehlerTpayShopwarePayment;
+use Crehler\TpayShopwarePayment\Util\PaymentMethodUtil;
+use Crehler\TpayShopwarePayment\Util\Payments\BankTransfer;
+use Crehler\TpayShopwarePayment\Util\Payments\Blik;
+use Crehler\TpayShopwarePayment\Util\TpayPaymentsCollection;
 
 class ActivateDeactivate
 {
@@ -76,11 +76,11 @@ class ActivateDeactivate
         $this->customFieldRepository->upsert(
             [
                 [
-                    'name' => TpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID,
+                    'name' => CrehlerTpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID,
                     'type' => CustomFieldTypes::TEXT,
                 ],
                 [
-                    'name' => TpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK,
+                    'name' => CrehlerTpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK,
                     'type' => CustomFieldTypes::JSON,
                 ]
             ],
@@ -94,8 +94,8 @@ class ActivateDeactivate
         $criteria->addFilter(new EqualsAnyFilter(
             'name',
             [
-                TpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID,
-                TpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK
+                CrehlerTpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID,
+                CrehlerTpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK
             ]
         ));
 

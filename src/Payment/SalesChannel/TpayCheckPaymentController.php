@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tpay\ShopwarePayment\Payment\SalesChannel;
+namespace Crehler\TpayShopwarePayment\Payment\SalesChannel;
 
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\AbstractTpayCheckPaymentRoute;
-use Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRouteResponse;
+use Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\AbstractTpayCheckPaymentRoute;
+use Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\TpayCheckPaymentRouteResponse;
 
 #[Route(defaults: ['_routeScope' => ['storefront']])]
 class TpayCheckPaymentController extends AbstractController

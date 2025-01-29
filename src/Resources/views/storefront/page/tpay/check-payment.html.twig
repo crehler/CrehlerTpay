@@ -7,7 +7,7 @@
         successUrl: seoUrl('frontend.checkout.finish.page', {'orderId': page.orderId}),
         failUrl: path('frontend.account.edit-order.page', { 'orderId': page.orderId }),
         checkUrl: path('tpay-payment-check'),
-        waitingTime: config('TpayShopwarePayment.config.waitingTime'),
+        waitingTime: config('CrehlerTpayShopwarePayment.config.waitingTime'),
         waitingSuccessText: "tpay.paymentConfirmation.waitingSuccessText"|trans|sw_sanitize,
         waitingFailText: "tpay.paymentConfirmation.waitingFailText"|trans|sw_sanitize,
     } %}

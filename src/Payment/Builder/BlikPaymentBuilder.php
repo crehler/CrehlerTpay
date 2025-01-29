@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\Builder;
+namespace Crehler\TpayShopwarePayment\Payment\Builder;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -25,10 +25,10 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
-use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
-use Tpay\ShopwarePayment\Util\Locale\LocaleProvider;
-use Tpay\ShopwarePayment\Util\Payments\Blik;
+use Crehler\TpayShopwarePayment\Config\Service\ConfigServiceInterface;
+use Crehler\TpayShopwarePayment\Config\TpayTransactionConfigStruct;
+use Crehler\TpayShopwarePayment\Util\Locale\LocaleProvider;
+use Crehler\TpayShopwarePayment\Util\Payments\Blik;
 use tpayLibs\src\_class_tpay\Utilities\TException;
 
 class BlikPaymentBuilder extends AbstractPaymentBuilder implements BlikPaymentBuilderInterface

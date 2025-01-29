@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel;
+namespace Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel;
 
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;

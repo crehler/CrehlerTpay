@@ -13,16 +13,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Subscriber;
+namespace Crehler\TpayShopwarePayment\Subscriber;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
-use Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankStruct;
-use Tpay\ShopwarePayment\TpayShopwarePayment;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankStruct;
+use Crehler\TpayShopwarePayment\CrehlerTpayShopwarePayment;
 
 class SalesChannelContextSwitch implements EventSubscriberInterface
 {
@@ -50,7 +50,6 @@ class SalesChannelContextSwitch implements EventSubscriberInterface
         if (empty($selectedBankId)) {
             $selectedBankId = (int) $this->requestStack->getCurrentRequest()->get('tpayBank');
         }
-
         if ($customer === null || empty($selectedBankId)) {
             return;
         }
@@ -60,10 +59,11 @@ class SalesChannelContextSwitch implements EventSubscriberInterface
                 ->offsetGet($selectedBankId)
         );
 
+
         $this->customerRepository->update([
             [
                 'id' => $customer->getId(),
-                'customFields' => [TpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK => $bank->jsonSerialize()]
+                'customFields' => [CrehlerTpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK => $bank->jsonSerialize()]
             ]
         ], $context);
     }

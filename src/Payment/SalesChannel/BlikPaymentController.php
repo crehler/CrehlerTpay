@@ -13,16 +13,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\SalesChannel;
+namespace Crehler\TpayShopwarePayment\Payment\SalesChannel;
 
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\AbstractBlikPaymentRoute;
-use Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentCheckRouteResponse;
-use Tpay\ShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentTransactionRouteResponse;
+use Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\AbstractBlikPaymentRoute;
+use Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentCheckRouteResponse;
+use Crehler\TpayShopwarePayment\Checkout\Payment\Tpay\SalesChannel\BlikPaymentTransactionRouteResponse;
 
 #[Route(defaults: ['_routeScope' => ['storefront']])]
 class BlikPaymentController extends AbstractController

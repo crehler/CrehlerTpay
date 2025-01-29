@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment;
+namespace Crehler\TpayShopwarePayment\Payment;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Exception\CustomerNotLoggedInException;
@@ -24,7 +24,7 @@ use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Tpay\ShopwarePayment\Payment\Builder\PaymentBuilderInterface;
+use Crehler\TpayShopwarePayment\Payment\Builder\PaymentBuilderInterface;
 use tpayLibs\src\_class_tpay\Utilities\TException;
 use tpayLibs\src\_class_tpay\Utilities\Util;
 
@@ -72,7 +72,7 @@ class CardPaymentHandler implements AsynchronousPaymentHandlerInterface
     public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
     {
         /**
-         * @See Tpay\ShopwarePayment\Payment\FinalizePaymentController
+         * @See Crehler\TpayShopwarePayment\Payment\FinalizePaymentController
          * Nothing to do here.
          */
     }

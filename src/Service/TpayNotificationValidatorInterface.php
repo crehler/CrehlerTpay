@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tpay\ShopwarePayment\Service;
+namespace Crehler\TpayShopwarePayment\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 

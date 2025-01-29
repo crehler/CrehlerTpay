@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment;
+namespace Crehler\TpayShopwarePayment\Payment;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Tpay\ShopwarePayment\TpayShopwarePayment;
+use Crehler\TpayShopwarePayment\CrehlerTpayShopwarePayment;
 
 class TpayPaymentService
 {
@@ -125,7 +125,7 @@ class TpayPaymentService
         $data = [
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
-                TpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID => $tpayTransactionId,
+                CrehlerTpayShopwarePayment::ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID => $tpayTransactionId,
             ],
         ];
         $this->orderTransactionRepository->update([$data], $context);

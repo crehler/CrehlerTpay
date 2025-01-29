@@ -13,14 +13,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\Builder;
+namespace Crehler\TpayShopwarePayment\Payment\Builder;
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
-use Tpay\ShopwarePayment\Util\Payments\Card;
+use Crehler\TpayShopwarePayment\Config\TpayTransactionConfigStruct;
+use Crehler\TpayShopwarePayment\Util\Payments\Card;
 
 class CardPaymentBuilder extends AbstractPaymentBuilder
 {

@@ -13,16 +13,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\Builder;
+namespace Crehler\TpayShopwarePayment\Payment\Builder;
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
-use Tpay\ShopwarePayment\Payment\Exception\MissingRequiredBankIdException;
-use Tpay\ShopwarePayment\TpayShopwarePayment;
+use Crehler\TpayShopwarePayment\Config\TpayTransactionConfigStruct;
+use Crehler\TpayShopwarePayment\Payment\Exception\MissingRequiredBankIdException;
+use Crehler\TpayShopwarePayment\CrehlerTpayShopwarePayment;
 
 class BankTransferPaymentBuilder extends AbstractPaymentBuilder
 {
@@ -41,7 +41,7 @@ class BankTransferPaymentBuilder extends AbstractPaymentBuilder
         SalesChannelContext $salesChannelContext
     ): TpayTransactionConfigStruct {
         $tpayTransactionConfig = parent::getTpayTransactionConfig($transaction, $order, $customer, $salesChannelContext);
-        $bankId = (int) $customer->getCustomFields()[TpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK]['id'];
+        $bankId = (int) $customer->getCustomFields()[CrehlerTpayShopwarePayment::CUSTOMER_CUSTOM_FIELDS_TPAY_SELECTED_BANK]['id'];
 
         if (!$bankId) {
             $exceptionMessage = (new MissingRequiredBankIdException())->getMessage();

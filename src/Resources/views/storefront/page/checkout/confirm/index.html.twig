@@ -1,8 +1,7 @@
 {% sw_extends "@Storefront/storefront/page/checkout/confirm/index.html.twig" %}
 
  {% block page_checkout_confirm_tos_control %}
-
-     {% if 'tpay_' in context.paymentMethod.formattedHandlerIdentifier %}
+     {% if 'TpayShopwarePayment' in context.paymentMethod.handlerIdentifier %}
          <div class="form-check">
              <input type="checkbox"
                     class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
@@ -22,8 +21,8 @@
  {% endblock %}
 
 {% block page_checkout_aside_actions %}
-    {% set formattedHandlerIdentifier = context.paymentMethod.formattedHandlerIdentifier %}
-    {% if 'tpay_' in formattedHandlerIdentifier and 'blik' in formattedHandlerIdentifier and page.cart.errors is empty %}
+    {% set handlerIdentifier = context.paymentMethod.handlerIdentifier %}
+    {% if 'TpayShopwarePayment' in handlerIdentifier and 'Blik' in handlerIdentifier and page.cart.errors is empty %}
         {% set tpayBlikOptions = {
             paymentMethodId : context.paymentMethod.id
         } %}
@@ -52,7 +51,7 @@
                 </div>
             </form>
         </div>
-    {% elseif context.paymentMethod.formattedHandlerIdentifier is same as('handler_tpay_banktransferpaymenthandler')
+    {% elseif context.paymentMethod.handlerIdentifier is same as('Crehler\TpayShopwarePayment\Payment\BlikPaymentHandler')
         and context.customer.customFields.tpay_default_payment_selected_bank is empty %}
         <div class="checkout-aside-action">
             <form id="confirmOrderForm"

@@ -13,13 +13,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config\Service;
+namespace Crehler\TpayShopwarePayment\Config\Service;
 
-use Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient;
-use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicApi;
-use Tpay\ShopwarePayment\Config\Exception\TpayInvalidMerchantCredentialsException;
-use Tpay\ShopwarePayment\Config\TpayConfigStruct;
-use Tpay\ShopwarePayment\Config\Util\TestCredentialsTransaction;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\TpayBasicApi;
+use Crehler\TpayShopwarePayment\Config\Exception\TpayInvalidMerchantCredentialsException;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStruct;
+use Crehler\TpayShopwarePayment\Config\Util\TestCredentialsTransaction;
 use tpayLibs\src\_class_tpay\Utilities\TException;
 
 class MerchantCredentialsService implements MerchantCredentialsServiceInterface

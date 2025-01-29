@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config\Service;
+namespace Crehler\TpayShopwarePayment\Config\Service;
 
 interface MerchantCredentialsServiceInterface
 {

@@ -13,9 +13,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config\Util;
+namespace Crehler\TpayShopwarePayment\Config\Util;
 
-use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
+use Crehler\TpayShopwarePayment\Config\TpayTransactionConfigStruct;
 
 class TestCredentialsTransaction
 {

@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Util\Payments;
+namespace Crehler\TpayShopwarePayment\Util\Payments;
 
 abstract class Payment implements \JsonSerializable
 {

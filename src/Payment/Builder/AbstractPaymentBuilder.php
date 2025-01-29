@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\Builder;
+namespace Crehler\TpayShopwarePayment\Payment\Builder;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -28,12 +28,12 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicApi;
-use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
-use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
-use Tpay\ShopwarePayment\Config\TpayConfigStruct;
-use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
-use Tpay\ShopwarePayment\Util\Locale\LocaleProvider;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\TpayBasicApi;
+use Crehler\TpayShopwarePayment\Config\Exception\TpayConfigInvalidException;
+use Crehler\TpayShopwarePayment\Config\Service\ConfigServiceInterface;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStruct;
+use Crehler\TpayShopwarePayment\Config\TpayTransactionConfigStruct;
+use Crehler\TpayShopwarePayment\Util\Locale\LocaleProvider;
 use tpayLibs\src\_class_tpay\Utilities\TException;
 
 abstract class AbstractPaymentBuilder implements PaymentBuilderInterface

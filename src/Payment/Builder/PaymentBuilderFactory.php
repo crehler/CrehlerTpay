@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\Builder;
+namespace Crehler\TpayShopwarePayment\Payment\Builder;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
@@ -22,8 +22,8 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
-use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
-use Tpay\ShopwarePayment\Util\Locale\LocaleProvider;
+use Crehler\TpayShopwarePayment\Config\Service\ConfigServiceInterface;
+use Crehler\TpayShopwarePayment\Util\Locale\LocaleProvider;
 
 class PaymentBuilderFactory
 {

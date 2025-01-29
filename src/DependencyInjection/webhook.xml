@@ -6,11 +6,11 @@
 
     <services>
 
-        <service id="Tpay\ShopwarePayment\Webhook\WebhookController" public="true">
-            <argument type="service" id="Tpay\ShopwarePayment\Config\Service\ConfigService"/>
-            <argument type="service" id="Tpay\ShopwarePayment\Payment\TpayPaymentService" />
+        <service id="Crehler\TpayShopwarePayment\Webhook\WebhookController" public="true">
+            <argument type="service" id="Crehler\TpayShopwarePayment\Config\Service\ConfigService"/>
+            <argument type="service" id="Crehler\TpayShopwarePayment\Payment\TpayPaymentService" />
             <argument type="service" id="tpay_payment_tokens.repository"/>
-            <argument type="service" id="Tpay\ShopwarePayment\Service\TpayNotificationValidator" />
+            <argument type="service" id="Crehler\TpayShopwarePayment\Service\TpayNotificationValidator" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

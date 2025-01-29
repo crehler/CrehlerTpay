@@ -13,14 +13,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Util\Lifecycle;
+namespace Crehler\TpayShopwarePayment\Util\Lifecycle;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
-use Tpay\ShopwarePayment\Util\{PaymentMethodUtil,
+use Crehler\TpayShopwarePayment\Util\{PaymentMethodUtil,
     Payments\BankTransfer,
     Payments\Blik,
     Payments\Card,

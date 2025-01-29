@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace Tpay\ShopwarePayment\Webhook;
+namespace Crehler\TpayShopwarePayment\Webhook;
 
 use Exception;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -26,10 +26,10 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
-use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicNotificationHandler;
-use Tpay\ShopwarePayment\Payment\TpayPaymentService;
-use Tpay\ShopwarePayment\Service\TpayNotificationValidatorInterface;
+use Crehler\TpayShopwarePayment\Config\Service\ConfigServiceInterface;
+use Crehler\TpayShopwarePayment\Component\TpayPayment\TpayBasicNotificationHandler;
+use Crehler\TpayShopwarePayment\Payment\TpayPaymentService;
+use Crehler\TpayShopwarePayment\Service\TpayNotificationValidatorInterface;
 use tpayLibs\src\_class_tpay\Utilities\Util;
 
 #[Route(defaults: ['_routeScope' => ['storefront']])]

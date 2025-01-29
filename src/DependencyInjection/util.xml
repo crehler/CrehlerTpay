@@ -6,19 +6,19 @@
 
     <services>
 
-        <service id="Tpay\ShopwarePayment\Util\PaymentMethodUtil">
+        <service id="Crehler\TpayShopwarePayment\Util\PaymentMethodUtil">
             <argument type="service" id="payment_method.repository"/>
             <argument type="service" id="rule.repository"/>
             <argument type="service" id="currency.repository"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Util\Lifecycle\ActivateDeactivate">
+        <service id="Crehler\TpayShopwarePayment\Util\Lifecycle\ActivateDeactivate">
             <argument type="service" id="custom_field.repository"/>
             <argument type="service" id="payment_method.repository"/>
-            <argument type="service" id="Tpay\ShopwarePayment\Util\PaymentMethodUtil"/>
+            <argument type="service" id="Crehler\TpayShopwarePayment\Util\PaymentMethodUtil"/>
         </service>
 
-        <service id="Tpay\ShopwarePayment\Util\Locale\LocaleProvider">
+        <service id="Crehler\TpayShopwarePayment\Util\Locale\LocaleProvider">
             <argument type="service" id="language.repository"/>
         </service>
 

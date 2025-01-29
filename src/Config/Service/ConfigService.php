@@ -13,16 +13,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config\Service;
+namespace Crehler\TpayShopwarePayment\Config\Service;
 
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
-use Tpay\ShopwarePayment\Config\TpayConfigStruct;
-use Tpay\ShopwarePayment\Config\TpayConfigStructValidator;
+use Crehler\TpayShopwarePayment\Config\Exception\TpayConfigInvalidException;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStruct;
+use Crehler\TpayShopwarePayment\Config\TpayConfigStructValidator;
 
 class ConfigService implements ConfigServiceInterface
 {
-    final public const SYSTEM_CONFIG_DOMAIN = 'TpayShopwarePayment.config';
+    final public const SYSTEM_CONFIG_DOMAIN = 'CrehlerTpayShopwarePayment.config';
 
     public function __construct(private readonly SystemConfigService $systemConfigService)
     {

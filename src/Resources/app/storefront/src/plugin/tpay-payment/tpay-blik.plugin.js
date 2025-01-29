@@ -3,7 +3,6 @@ import Plugin from 'src/plugin-system/plugin.class';
 import BlikApiService from './service/blik-api.service';
 import BlikModalUtil from './Util/blik-modal.util';
 
-
 const BLIK_MASK = new RegExp('^[0-9][0-9][0-9]+\\s[0-9][0-9][0-9]$');
 const BLIK_DURATION_TIMEOUT = 500;
 

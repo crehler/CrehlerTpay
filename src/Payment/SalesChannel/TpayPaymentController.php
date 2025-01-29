@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Payment\SalesChannel;
+namespace Crehler\TpayShopwarePayment\Payment\SalesChannel;
 
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Tpay\ShopwarePayment\Payment\SalesChannel\Page\TpayCheckPaymentPage;
+use Crehler\TpayShopwarePayment\Payment\SalesChannel\Page\TpayCheckPaymentPage;
 
 #[Route(defaults: ['_routeScope' => ["storefront"]])]
 class TpayPaymentController extends StorefrontController

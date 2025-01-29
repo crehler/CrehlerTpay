@@ -1,6 +1,6 @@
 <?php
 
-namespace Tpay\ShopwarePayment\Payment\SalesChannel\Page;
+namespace Crehler\TpayShopwarePayment\Payment\SalesChannel\Page;
 
 use Shopware\Storefront\Page\Page;
 

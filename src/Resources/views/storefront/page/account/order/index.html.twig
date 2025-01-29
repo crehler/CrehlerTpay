@@ -2,7 +2,8 @@
 
 {% block page_checkout_aside_actions %}
     {% set formattedHandlerIdentifier = context.paymentMethod.formattedHandlerIdentifier %}
-    {% if 'tpay_' in formattedHandlerIdentifier and 'blik' in formattedHandlerIdentifier and page.cart.errors is empty %}
+
+    {% if 'crehler_' in formattedHandlerIdentifier and 'blik' in formattedHandlerIdentifier and page.cart.errors is empty %}
         {% set tpayBlikOptions = {
             paymentMethodId: context.paymentMethod.id,
             changedPayment: true

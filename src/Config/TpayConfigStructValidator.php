@@ -13,9 +13,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Config;
+namespace Crehler\TpayShopwarePayment\Config;
 
-use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
+use Crehler\TpayShopwarePayment\Config\Exception\TpayConfigInvalidException;
 
 class TpayConfigStructValidator
 {

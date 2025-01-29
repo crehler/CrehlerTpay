@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment\Util;
+namespace Crehler\TpayShopwarePayment\Util;
 
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Framework\Context;
@@ -22,7 +22,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Tpay\ShopwarePayment\Util\Payments\Payment;
+use Crehler\TpayShopwarePayment\Util\Payments\Payment;
 
 class PaymentMethodUtil
 {

@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tpay\ShopwarePayment;
+namespace Crehler\TpayShopwarePayment;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Plugin;
@@ -26,15 +26,15 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Contracts\Service\Attribute\Required;
-use Tpay\ShopwarePayment\Util\Lifecycle\ActivateDeactivate;
-use Tpay\ShopwarePayment\Util\Lifecycle\InstallUninstall;
+use Crehler\TpayShopwarePayment\Util\Lifecycle\ActivateDeactivate;
+use Crehler\TpayShopwarePayment\Util\Lifecycle\InstallUninstall;
 
 // SWAG-133666
 if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
     require_once dirname(__DIR__) . '/vendor/autoload.php';
 }
 
-class TpayShopwarePayment extends Plugin
+class CrehlerTpayShopwarePayment extends Plugin
 {
     final public const ORDER_TRANSACTION_CUSTOM_FIELDS_TPAY_TRANSACTION_ID = 'tpay_shopware_payment_transaction_id';
 
@@ -83,6 +83,8 @@ class TpayShopwarePayment extends Plugin
 
     public function uninstall(UninstallContext $uninstallContext): void
     {
+        parent::uninstall($uninstallContext);
+
         (new InstallUninstall(
             $this->container->get(Connection::class),
             $this->container->get('payment_method.repository'),
