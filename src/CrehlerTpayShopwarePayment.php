@@ -29,10 +29,6 @@ use Symfony\Contracts\Service\Attribute\Required;
 use Crehler\TpayShopwarePayment\Util\Lifecycle\ActivateDeactivate;
 use Crehler\TpayShopwarePayment\Util\Lifecycle\InstallUninstall;
 
-// SWAG-133666
-if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
-    require_once dirname(__DIR__) . '/vendor/autoload.php';
-}
 
 class CrehlerTpayShopwarePayment extends Plugin
 {
