@@ -1,5 +1,5 @@
 {
-  "name": "tpay/shopware-payment",
+  "name": "crehler/tpay-shopware-payment",
   "description": "Tpay Payment for Shopware 6",
   "type": "shopware-platform-plugin",
   "version": "3.0.1",
@@ -22,11 +22,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Tpay\\ShopwarePayment\\": "src/"
+      "Crehler\\TpayShopwarePayment\\": "src/"
     }
   },
   "extra": {
-    "shopware-plugin-class": "Tpay\\ShopwarePayment\\TpayShopwarePayment",
+    "shopware-plugin-class": "Crehler\\TpayShopwarePayment\\CrehlerTpayShopwarePayment",
     "copyright": "Tpay Krajowy Integrator Płatności S.A",
     "label": {
       "pl-PL": "Tpay Payment dla Shopware 6",
