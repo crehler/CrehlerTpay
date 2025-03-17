@@ -8,3 +8,5 @@
 - Kompatibilität mit Shopware 6.6 hinzugefügt
 # 3.0.1
 - Maschinenname in CrehlerTpay ändern
+# 3.0.2
+- Schaltfläche „Absenden“ auf der Seite „Kasse bestätigen“ korrigiert

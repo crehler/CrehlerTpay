@@ -7,4 +7,6 @@
 # 3.0.0
 - Added compatibility with Shopware 6.6
 # 3.0.1
-- Blik-Zahlung auf dem Handy beheben
+- Change Machine name to CrehlerTpay
+- # 3.0.2
+- Fix submit button on confirm checkout page

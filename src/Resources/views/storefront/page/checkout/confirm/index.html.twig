@@ -1,27 +1,29 @@
 {% sw_extends "@Storefront/storefront/page/checkout/confirm/index.html.twig" %}
 
- {% block page_checkout_confirm_tos_control %}
-     {% if 'TpayShopwarePayment' in context.paymentMethod.handlerIdentifier %}
-         <div class="form-check">
-             <input type="checkbox"
-                    class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
-                    required="required"
-                    id="tpayTos"
-                    form="confirmOrderForm"
-                    name="tpayTos"/>
+{% block page_checkout_confirm_tos_control %}
+    {% if 'TpayShopwarePayment' in context.paymentMethod.handlerIdentifier %}
+        <div class="form-check">
+            <input type="checkbox"
+                   class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
+                   required="required"
+                   id="tpayTos"
+                   form="confirmOrderForm"
+                   name="tpayTos"/>
 
-             <label for="tpayTos"
-                    class="checkout-confirm-tpay-tos-label form-check-label">
-                 {{ "tpay.checkout.confirmTerms"|trans|raw }}
-             </label>
-         </div>
-     {% endif %}
+            <label for="tpayTos"
+                   class="checkout-confirm-tpay-tos-label form-check-label">
+                {{ "tpay.checkout.confirmTerms"|trans|raw }}
+            </label>
+        </div>
+    {% endif %}
 
-     {{ parent() }}
- {% endblock %}
+    {{ parent() }}
+{% endblock %}
 
 {% block page_checkout_aside_actions %}
+
     {% set handlerIdentifier = context.paymentMethod.handlerIdentifier %}
+
     {% if 'TpayShopwarePayment' in handlerIdentifier and 'Blik' in handlerIdentifier and page.cart.errors is empty %}
         {% set tpayBlikOptions = {
             paymentMethodId : context.paymentMethod.id
@@ -51,7 +53,7 @@
                 </div>
             </form>
         </div>
-    {% elseif context.paymentMethod.handlerIdentifier is same as('Crehler\TpayShopwarePayment\Payment\BlikPaymentHandler')
+    {% elseif handlerIdentifier is same as('Crehler\\TpayShopwarePayment\\Payment\\BankTransferPaymentHandler')
         and context.customer.customFields.tpay_default_payment_selected_bank is empty %}
         <div class="checkout-aside-action">
             <form id="confirmOrderForm"
