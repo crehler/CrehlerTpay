@@ -6,7 +6,7 @@
             }
         },
         "checkout": {
-            "confirmTerms": "I accept <a data-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Terms and Conditions\">Terms and Conditions</a> of Tpay."
+            "confirmTerms": "I accept <a data-bs-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Terms and Conditions\">Terms and Conditions</a> of Tpay."
         },
         "blik": {
             "labelEnterBlikCode": "Enter BLIK code:",

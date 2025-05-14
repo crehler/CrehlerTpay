@@ -13,7 +13,19 @@
               <p title="{{ payment.translated.description|raw }}">{{ paymentDescription }}</p>
           {% endif %}
 
-          {% if payment.hasExtension('tpayBankList') %}
+          {% set showTpayBankListAfterSelect = config('TpayShopwarePayment.config.showTpayBankListInOnlineBankTransferPaymentMethodAfterSelectingIt') %}
+
+          {% if
+              payment.hasExtension('tpayBankList')
+              and (
+                false == showTpayBankListAfterSelect
+                or (
+                  true == showTpayBankListAfterSelect
+                  and 'Tpay\\ShopwarePayment\\Payment\\BankTransferPaymentHandler' == payment.handlerIdentifier
+                  and selectedPaymentMethodId == payment.id
+                )
+              )
+          %}
               {% sw_include "@TpayShopwarePayment/storefront/component/payment/tpay-bank-selection.html.twig" with {
                   bankList: payment.getExtension('tpayBankList').all(),
                   customer: context.customer

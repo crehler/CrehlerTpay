@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Config\Service;
 
-
 use Tpay\ShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient;
 use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicApi;
 use Tpay\ShopwarePayment\Config\Exception\TpayInvalidMerchantCredentialsException;
@@ -22,11 +24,8 @@ use tpayLibs\src\_class_tpay\Utilities\TException;
 
 class MerchantCredentialsService implements MerchantCredentialsServiceInterface
 {
-    private TpayBankListClient $tpayBankListClient;
-
-    public function __construct(TpayBankListClient $tpayBankListClient)
+    public function __construct(private readonly TpayBankListClient $tpayBankListClient)
     {
-        $this->tpayBankListClient = $tpayBankListClient;
     }
 
     public function testMerchantCredentials(int $merchantId, string $merchantSecret, string $merchantTrApiKey, string $merchantTrApiPass): bool
@@ -40,11 +39,11 @@ class MerchantCredentialsService implements MerchantCredentialsServiceInterface
         $group = null;
         foreach ($banks as $bank) {
             if ($bank['name'] === "BLIK") {
-                $group = (int) $bank['id'];
+                $group = (int)$bank['id'];
             }
         }
         if ($group === null) {
-            $group = (int) $banks[array_key_first($banks)]['id'];
+            $group = (int)$banks[array_key_first($banks)]['id'];
         }
 
         $testTransactionConfig->setGroup($group);
@@ -65,4 +64,3 @@ class MerchantCredentialsService implements MerchantCredentialsServiceInterface
         return true;
     }
 }
-

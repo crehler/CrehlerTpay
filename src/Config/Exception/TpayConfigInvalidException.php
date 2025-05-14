@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,13 +15,11 @@
 
 namespace Tpay\ShopwarePayment\Config\Exception;
 
-
 use Shopware\Core\Framework\ShopwareHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 class TpayConfigInvalidException extends ShopwareHttpException
 {
-
     public function __construct(string $missingConfig)
     {
         parent::__construct(

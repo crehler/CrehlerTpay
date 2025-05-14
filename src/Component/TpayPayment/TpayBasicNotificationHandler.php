@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -11,7 +14,6 @@
  */
 
 namespace Tpay\ShopwarePayment\Component\TpayPayment;
-
 
 use tpayLibs\src\_class_tpay\Notifications\BasicNotificationHandler;
 use tpayLibs\src\_class_tpay\Utilities\TException;
@@ -31,7 +33,7 @@ class TpayBasicNotificationHandler extends BasicNotificationHandler
      */
     public function checkPayment($response = 'TRUE'): array
     {
-        
+
         $res = $this->getResponse(new PaymentTypeBasic());
 
         $this->setTransactionID($res['tr_id']);

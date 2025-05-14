@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Subscriber;
 
-
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
@@ -23,30 +25,19 @@ use Tpay\ShopwarePayment\Util\Payments\BankTransfer;
 
 class PagePaymentSearch implements EventSubscriberInterface
 {
-    /** @var TpayBankListInterface */
-    private $bankListService;
-
-    public function __construct(TpayBankListInterface $bankListService)
+    public function __construct(private readonly TpayBankListInterface $bankListService)
     {
-        $this->bankListService = $bankListService;
     }
 
     public static function getSubscribedEvents(): array
     {
-      return [
-          CheckoutConfirmPageLoadedEvent::class => 'onPaymentSearchResult',
-          AccountEditOrderPageLoadedEvent::class => 'onAccountEditPaymentSearchResult'
-      ];
+        return [
+            CheckoutConfirmPageLoadedEvent::class => 'onPaymentSearchResult',
+            AccountEditOrderPageLoadedEvent::class => 'onAccountEditPaymentSearchResult'
+        ];
     }
 
     public function onPaymentSearchResult(CheckoutConfirmPageLoadedEvent $event): void
-    {
-        $payments = $event->getPage()->getPaymentMethods();
-
-        $this->addBankListExtension($payments, $event->getSalesChannelContext());
-    }
-
-    public function onAccountEditPaymentSearchResult(AccountEditOrderPageLoadedEvent $event):void
     {
         $payments = $event->getPage()->getPaymentMethods();
 
@@ -62,5 +53,12 @@ class PagePaymentSearch implements EventSubscriberInterface
                 $payment->addExtension('tpayBankList', $this->bankListService->getBankList($salesChannelContext));
             }
         }
+    }
+
+    public function onAccountEditPaymentSearchResult(AccountEditOrderPageLoadedEvent $event): void
+    {
+        $payments = $event->getPage()->getPaymentMethods();
+
+        $this->addBankListExtension($payments, $event->getSalesChannelContext());
     }
 }

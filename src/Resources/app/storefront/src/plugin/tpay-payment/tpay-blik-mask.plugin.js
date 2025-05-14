@@ -18,14 +18,14 @@ export default class TpayBlikMaskPlugin extends Plugin {
     }
 
     _registerEvents() {
-        this.el.addEventListener('keyup', this.validateBlik.bind(this));
-        this.el.addEventListener('paste', this.validateBlik.bind(this));
+        this.el.addEventListener('input', this.validateBlik.bind(this));
     }
 
     validateBlik() {
         const insertAt = (str, sub, pos) => `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
         const isSpaceInserted = this.el.value[3] === ' ';
 
+        this.el.value = this.el.value.replace(/[^\d\s]/g, '');
         let l = this.el.value.length;
 
         if (l < 0) {

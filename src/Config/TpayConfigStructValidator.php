@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -11,7 +14,6 @@
  */
 
 namespace Tpay\ShopwarePayment\Config;
-
 
 use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
 
@@ -42,7 +44,7 @@ class TpayConfigStructValidator
 
         try {
             $generalStruct->getMerchantTransactionApiPassword();
-        } catch (\TypeError $error) {
+        } catch (\TypeError) {
             throw new TpayConfigInvalidException('MerchantTransactionApiPassword');
         }
     }
