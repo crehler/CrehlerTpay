@@ -87,7 +87,7 @@
         </input-field>
 
         <input-field type="bool">
-            <name>isVerificationSenderIpAddressOfPaymentNotification</name>
+            <name>verificationSenderIpAddressOfPaymentNotification</name>
             <label>Verification of the IP-address of the sender</label>
             <label lang="de-DE">Überprüfung der IP-Adresse des Absenders</label>
             <label lang="pl-PL">Weryfikacja adresu IP nadawcy powiadomienia o wpłacie</label>

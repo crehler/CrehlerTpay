@@ -52,6 +52,22 @@
                 </div>
             </form>
         </div>
+    {% elseif context.paymentMethod.formattedHandlerIdentifier is same as('handler_tpay_banktransferpaymenthandler')
+        and context.customer.customFields.tpay_default_payment_selected_bank is empty %}
+        <div class="checkout-aside-action">
+            <form id="confirmOrderForm"
+                  action="{{ path('frontend.checkout.finish.order') }}"
+                  method="post">
+
+                    <button id="confirmFormSubmit"
+                            class="btn btn-primary btn-block btn-lg mt-2"
+                            form="confirmOrderForm"
+                            disabled="disabled">
+                        {{ "tpay.bankSelection.bankSelectionTitle"|trans|sw_sanitize }}
+                    </button>
+
+            </form>
+        </div>
     {% else %}
         {{ parent() }}
     {% endif %}

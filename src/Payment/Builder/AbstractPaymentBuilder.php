@@ -106,8 +106,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         $token = $this->handleToken($transaction);
 
         $tpayTransactionConfig
-            ->setAmount($order->getAmountTotal())
-
+            ->setAmount($transaction->getOrderTransaction()->getAmount()->getTotalPrice())
             ->setLanguage($this->localeProvider->getLocaleCodeFromContext($salesChannelContext->getContext()))
             ->setBuyer($customer)
             ->setResultUrl($this->assembleResultUrl($token, $salesChannelContext->getContext()))

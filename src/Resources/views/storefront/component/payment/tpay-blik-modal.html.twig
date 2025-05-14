@@ -36,6 +36,10 @@
             </div>
             <div class="blik--modal-message-success is--hidden">{{ "tpay.blik.modal.successMessage"|trans|sw_sanitize }}</div>
             <div class="blik--modal-message-error text-danger is--hidden">{{ "tpay.blik.modal.errorMessage"|trans|sw_sanitize }}</div>
+            <button type="button" class="btn btn-light btn-block blik--modal-change-method-btn d-none" data-toggle="modal"
+                    data-backdrop="static" data-target="#confirmPaymentModal">
+                {{ "tpay.blik.modal.changePaymentMethod"|trans|sw_sanitize }}
+            </button>
         </div>
     </div>
 </div>

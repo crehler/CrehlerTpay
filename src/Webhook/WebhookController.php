@@ -78,7 +78,7 @@ class WebhookController extends StorefrontController
         if ($config->isVerificationSenderIpAddressOfPaymentNotification()) {
             $notification->enableForwardedIPValidation()->enableValidationServerIP();
         } else {
-            $notification->enableForwardedIPValidation()->disableValidationServerIP();
+            $notification->disableForwardedIPValidation()->disableValidationServerIP();
         }
 
         $notificationData = $notification->checkPayment();

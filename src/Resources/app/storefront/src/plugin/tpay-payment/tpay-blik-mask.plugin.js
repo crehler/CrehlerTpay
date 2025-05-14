@@ -20,6 +20,7 @@ export default class TpayBlikMaskPlugin extends Plugin {
     _registerEvents() {
         this.el.addEventListener('keyup', this.validateBlik.bind(this));
         this.el.addEventListener('paste', this.validateBlik.bind(this));
+        this.el.addEventListener('input', this.validateBlik.bind(this));
     }
 
     validateBlik() {
