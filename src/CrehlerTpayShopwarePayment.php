@@ -15,12 +15,14 @@ declare(strict_types=1);
 
 namespace Crehler\TpayShopwarePayment;
 
+use Crehler\TpayShopwarePayment\Util\Lifecycle\Update;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -90,6 +92,14 @@ class CrehlerTpayShopwarePayment extends Plugin
             $this->container->get(PluginIdProvider::class),
             static::class
         ))->uninstall($uninstallContext);
+    }
+
+    public function update(UpdateContext $updateContext): void
+    {
+        (new Update(
+            $this->container->get('payment_method.repository'),
+            $this->container->get('language.repository'),
+        ))->update($updateContext->getContext());
     }
 
     public function activate(ActivateContext $activateContext): void

@@ -26,15 +26,15 @@ class BankTransfer extends Payment
         $this->handlerIdentifier = BankTransferPaymentHandler::class;
         $this->translations = [
             'de-DE' => [
-                'name' => 'Schnelle Online-Überweisung',
-                'description' => '',
+                'name' => 'Schnelle Online-Überweisungen',
+                'description' => 'Zahlung per Online-Überweisung verschiedener Banken',
             ],
             'en-GB' => [
-                'name' => 'Online bank transfer',
-                'description' => '',
+                'name' => 'Online bank transfers',
+                'description' => 'Payment via online bank transfer from multiple banks',
             ],
             'pl-PL' => [
-                'name' => 'Szybki przelew online',
+                'name' => 'Szybkie przelewy online',
                 'description' => '',
             ],
         ];
