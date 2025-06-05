@@ -18,12 +18,14 @@ use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Tpay\ShopwarePayment\Util\Lifecycle\ActivateDeactivate;
 use Tpay\ShopwarePayment\Util\Lifecycle\InstallUninstall;
+use Tpay\ShopwarePayment\Util\Lifecycle\Update;
 use tpayLibs\src\_class_tpay\Utilities\Util;
 
 // SWAG-133666
@@ -55,7 +57,7 @@ class TpayShopwarePayment extends Plugin
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
-        
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $loader->load('util.xml');
         $loader->load('payment.xml');
@@ -98,5 +100,18 @@ class TpayShopwarePayment extends Plugin
     public function deactivate(DeactivateContext $deactivateContext): void
     {
         $this->activateDeactivate->deactivate($deactivateContext->getContext());
+    }
+
+    public function update(UpdateContext $updateContext): void
+    {
+        (new Update(
+            $this->container->get('payment_method.repository'),
+            $this->container->get('language.repository'),
+        ))->update($updateContext->getContext());
+    }
+
+    public function executeComposerCommands(): bool
+    {
+        return true;
     }
 }

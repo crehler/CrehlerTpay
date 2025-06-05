@@ -50,9 +50,16 @@
             <label>Available payment channels</label>
             <label lang="de-DE">Verfügbare Zahlungskanäle</label>
             <label lang="pl-PL">Dostępne kanały płatności</label>
-            <helpText>Show all available payment channel groups or download groups of payment channels available only online - for payment channels from these groups, booking is done within a short time</helpText>
-            <helpText lang="de-DE">Alle verfügbaren Zahlungskanalgruppen anzeigen oder Gruppen von Zahlungskanälen herunterladen, die nur online verfügbar sind - für Zahlungskanäle dieser Gruppen erfolgt die Buchung innerhalb kurzer Zeit</helpText>
-            <helpText lang="pl-PL">Pokaż wszystkie dostępne kanały płatności lub pokaż kanały płatności dostępne tylko online - w przypadku kanałów płatności online rezerwacja jest dokonywana bardzo szybko</helpText>
+            <helpText>Show all available payment channel groups or download groups of payment channels available only
+                online - for payment channels from these groups, booking is done within a short time
+            </helpText>
+            <helpText lang="de-DE">Alle verfügbaren Zahlungskanalgruppen anzeigen oder Gruppen von Zahlungskanälen
+                herunterladen, die nur online verfügbar sind - für Zahlungskanäle dieser Gruppen erfolgt die Buchung
+                innerhalb kurzer Zeit
+            </helpText>
+            <helpText lang="pl-PL">Pokaż wszystkie dostępne kanały płatności lub pokaż kanały płatności dostępne tylko
+                online - w przypadku kanałów płatności online rezerwacja jest dokonywana bardzo szybko
+            </helpText>
             <options>
                 <option>
                     <id>0</id>
@@ -75,12 +82,15 @@
             <label lang="de-DE">Leiten Sie direkt zum Bank-Gateway</label>
             <label lang="pl-PL">Przekieruj prosto do bramki banku</label>
             <helpText>After choosing the payment by bank transfer, the customer goes straight to the bank's gate,
-                bypassing the tPay gateway. This may result in the unavailability of some specific methods such as PeoPay at Bank Pekao SA
+                bypassing the tPay gateway. This may result in the unavailability of some specific methods such as
+                PeoPay at Bank Pekao SA
             </helpText>
-            <helpText lang="de-DE">Nachdem der Kunde die Zahlung per Überweisung gewählt hat, geht er direkt zum Eingang der Bank und umgeht das tPay-Gateway.
+            <helpText lang="de-DE">Nachdem der Kunde die Zahlung per Überweisung gewählt hat, geht er direkt zum Eingang
+                der Bank und umgeht das tPay-Gateway.
                 Dies kann dazu führen, dass bestimmte Methoden wie PeoPay bei der Bank Pekao SA nicht verfügbar sind
             </helpText>
-            <helpText lang="pl-PL">Klient po wybraniu płatności przelewem trafia prosto do bramki banku z pominięciem bramki tPay.
+            <helpText lang="pl-PL">Klient po wybraniu płatności przelewem trafia prosto do bramki banku z pominięciem
+                bramki tPay.
                 Może to powodować niedostępność niektórych specyficznych metod jak np. PeoPay w Banku Pekao SA
             </helpText>
             <defaultValue>false</defaultValue>
@@ -100,6 +110,18 @@
             <label lang="de-DE">Wartezeit [minuten]</label>
             <label lang="pl-PL">Czas oczekiwania [min]</label>
             <defaultValue>2</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>showTpayBankListInOnlineBankTransferPaymentMethodAfterSelectingIt</name>
+            <label>Show Tpay bank list in online bank transfer payment method after selecting it</label>
+            <label lang="de-DE">Zeigen Sie die Tpay-Bankliste in der Zahlungsmethode Online-Überweisung an, nachdem Sie
+                sie ausgewählt haben
+            </label>
+            <label lang="pl-PL">Pokaż listę banków Tpay w metodzie płatności przelewem bankowym online po jej
+                zaznaczeniu
+            </label>
+            <defaultValue>false</defaultValue>
         </input-field>
     </card>
 </config>
