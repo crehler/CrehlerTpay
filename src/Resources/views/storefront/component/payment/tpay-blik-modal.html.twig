@@ -12,8 +12,8 @@
         <p class="blik--modal-invalid-code-help-text">{{ "tpay.blik.modal.helpInfo"|trans|raw }} <a href="https://blikmobile.pl/#jak-korzystac" rel="noopener noreferrer" target="_blank">{{ "tpay.blik.modal.helpLink"|trans|raw }}</a></p>
         <input id="blik" type="text" class="form-control blik--input" name="blikCode"
                placeholder="{{ "tpay.blik.placeholderEnterBlikCode"|trans|raw }}">
-        <button type="button" class="btn btn-light btn-block blik--modal-change-method-btn" data-toggle="modal"
-                data-backdrop="static" data-target="#confirmPaymentModal">
+        <button type="button" class="btn btn-light btn-block blik--modal-change-method-btn" data-bs-toggle="modal"
+                data-backdrop="static" data-bs-target="#confirmPaymentModal">
             {{ "tpay.blik.modal.changePaymentMethod"|trans|sw_sanitize }}
         </button>
         <button id="confirmFormSubmit"
@@ -36,6 +36,10 @@
             </div>
             <div class="blik--modal-message-success is--hidden">{{ "tpay.blik.modal.successMessage"|trans|sw_sanitize }}</div>
             <div class="blik--modal-message-error text-danger is--hidden">{{ "tpay.blik.modal.errorMessage"|trans|sw_sanitize }}</div>
+            <button type="button" class="btn btn-light btn-block blik--modal-change-method-btn d-none" data-bs-toggle="modal"
+                    data-backdrop="static" data-bs-target="#confirmPaymentModal">
+                {{ "tpay.blik.modal.changePaymentMethod"|trans|sw_sanitize }}
+            </button>
         </div>
     </div>
 </div>

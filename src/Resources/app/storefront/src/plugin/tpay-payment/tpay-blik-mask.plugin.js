@@ -18,14 +18,37 @@ export default class TpayBlikMaskPlugin extends Plugin {
     }
 
     _registerEvents() {
-        this.el.addEventListener('keyup', this.validateBlik.bind(this));
-        this.el.addEventListener('paste', this.validateBlik.bind(this));
+        this.el.addEventListener('input', this.validateBlik.bind(this));
+        this.el.addEventListener('paste', this._handlePaste.bind(this));
+    }
+
+    _handlePaste(event) {
+        // Prevent default paste behavior
+        event.preventDefault();
+        
+        // Get pasted text and clean it
+        const clipboardData = event.clipboardData || window.clipboardData;
+        let pastedText = clipboardData.getData('text');
+        
+        pastedText = pastedText.replace(/[^\d]/g, '');
+        
+        if (pastedText.length > 6) {
+            pastedText = pastedText.substring(0, 6);
+        }
+        
+        if (pastedText.length > 3) {
+            pastedText = pastedText.substring(0, 3) + ' ' + pastedText.substring(3);
+        }
+        
+        this.el.value = pastedText;
+        this.validateBlik();
     }
 
     validateBlik() {
         const insertAt = (str, sub, pos) => `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
         const isSpaceInserted = this.el.value[3] === ' ';
 
+        this.el.value = this.el.value.replace(/[^\d\s]/g, '');
         let l = this.el.value.length;
 
         if (l < 0) {

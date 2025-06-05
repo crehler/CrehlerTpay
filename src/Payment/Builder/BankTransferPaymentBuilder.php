@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -11,7 +14,6 @@
  */
 
 namespace Tpay\ShopwarePayment\Payment\Builder;
-
 
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -50,6 +52,10 @@ class BankTransferPaymentBuilder extends AbstractPaymentBuilder
             );
         }
         $tpayTransactionConfig->setGroup($bankId);
+
+        if ($this->config->isRedirectDirectlyToTheBank()) {
+            $tpayTransactionConfig->setDirect(1);
+        }
 
         return $tpayTransactionConfig;
     }

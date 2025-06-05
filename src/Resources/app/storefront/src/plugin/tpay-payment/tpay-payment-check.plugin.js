@@ -1,5 +1,5 @@
 import Plugin from 'src/plugin-system/plugin.class';
-import StoreApiClient from 'src/service/store-api-client.service';
+import HttpClient from 'src/service/http-client.service';
 
 export default class TpayPaymentCheckPlugin extends Plugin {
 
@@ -15,7 +15,7 @@ export default class TpayPaymentCheckPlugin extends Plugin {
 
     init() {
         this._errors = [];
-        this._client = new StoreApiClient();
+        this._client = new HttpClient();
         this.checksCount = 0;
         this.totalChecksCount = Math.floor(((this.options.waitingTime * 60000) / 10000));
 

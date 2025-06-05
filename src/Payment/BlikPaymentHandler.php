@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,10 +15,8 @@
 
 namespace Tpay\ShopwarePayment\Payment;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Exception\CustomerNotLoggedInException;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -31,23 +32,19 @@ class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
 {
     use TpayResponseHandlerTrait;
 
-    /** @var BlikPaymentBuilderInterface */
-    private $blikPaymentBuilder;
-
     /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    public function __construct(BlikPaymentBuilderInterface $blikPaymentBuilder, LoggerInterface $logger)
+    public function __construct(private readonly BlikPaymentBuilderInterface $blikPaymentBuilder, LoggerInterface $logger)
     {
-        $this->blikPaymentBuilder = $blikPaymentBuilder;
         $this->logger = $logger;
     }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
-	{
+    /**
+     * @inheritDoc
+     */
+    public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
+    {
         Util::$loggingEnabled = false;
 
         $customer = $salesChannelContext->getCustomer();
@@ -60,7 +57,7 @@ class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
 
         $responseBlik = $this->blikPaymentBuilder->createBlikTransaction($transaction, $salesChannelContext, $customer, $dataBag->getDigits('blikCode'));
 
-        if (isset($responseBlik['result']) && (int) $responseBlik['result'] !== 1 ) {
+        if (isset($responseBlik['result']) && (int)$responseBlik['result'] !== 1) {
             if ($responseBlik['err'] === 'ERR63') {
                 throw new InvalidBlikCodeException();
             }
@@ -69,14 +66,14 @@ class BlikPaymentHandler implements SynchronousPaymentHandlerInterface
         }
     }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
-	{
+    /**
+     * @inheritDoc
+     */
+    public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
+    {
         /**
          * @See Tpay\ShopwarePayment\Payment\FinalizePaymentController
          * Nothing to do here.
          */
-	}
+    }
 }

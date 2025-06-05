@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Util\Payments;
 
-
 use Tpay\ShopwarePayment\Payment\BankTransferPaymentHandler;
 
 class BankTransfer extends Payment
@@ -25,14 +27,14 @@ class BankTransfer extends Payment
         $this->translations = [
             'de-DE' => [
                 'name' => 'Schnelle Online-Überweisung',
-                'description' => '',
+                'description' => 'Zahlung per Online-Überweisung verschiedener Banken',
             ],
             'en-GB' => [
                 'name' => 'Online bank transfer',
-                'description' => '',
+                'description' => 'Payment via online bank transfer from multiple banks',
             ],
             'pl-PL' => [
-                'name' => 'Szybki przelew online',
+                'name' => 'Szybkie przelewy online',
                 'description' => '',
             ],
         ];

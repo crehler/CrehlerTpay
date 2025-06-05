@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,60 +15,27 @@
 
 namespace Tpay\ShopwarePayment\Payment\Builder;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
-use Shopware\Core\Framework\Adapter\Translation\Translator;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Shopware\Core\Framework\Adapter\Translation\AbstractTranslator;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
 use Tpay\ShopwarePayment\Util\Locale\LocaleProvider;
 
 class PaymentBuilderFactory
 {
-    /** @var ConfigServiceInterface */
-    private $configService;
-
-    /** @var EntityRepositoryInterface */
-    private $tpayPaymentTokenRepository;
-
-    /** @var LocaleProvider */
-    private $localeProvider;
-
-    /** @var TokenFactoryInterfaceV2 */
-    private $tokenFactory;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var Translator */
-    private $translator;
-
-    /** @var Session */
-    private $session;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        ConfigServiceInterface $configService,
-        LocaleProvider $localeProvider,
-        TokenFactoryInterfaceV2 $tokenFactory
-        , RouterInterface $router,
-        Translator $translator,
-        Session $session,
-        LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        private readonly ConfigServiceInterface $configService,
+        private readonly LocaleProvider $localeProvider,
+        private readonly TokenFactoryInterfaceV2 $tokenFactory,
+        private readonly RouterInterface $router,
+        private readonly AbstractTranslator $translator,
+        private readonly LoggerInterface $logger,
+        private readonly EntityRepository $tpayPaymentTokenRepository,
+        private readonly RequestStack $requestStack
     ) {
-        $this->configService = $configService;
-        $this->tokenFactory = $tokenFactory;
-        $this->localeProvider = $localeProvider;
-        $this->router = $router;
-        $this->translator = $translator;
-        $this->session = $session;
-        $this->logger = $logger;
-        $this->tpayPaymentTokenRepository = $tpayPaymentTokenRepository;
     }
 
     public function createCardBuilder(): PaymentBuilderInterface
@@ -96,15 +66,18 @@ class PaymentBuilderFactory
 
     public function createBlikBuilder(): BlikPaymentBuilderInterface
     {
+        $session = $this->requestStack?->getCurrentRequest()?->hasSession() ?
+            $this->requestStack->getSession() : null;
+
         return new BlikPaymentBuilder(
             $this->configService,
             $this->localeProvider,
             $this->tokenFactory,
             $this->router,
             $this->translator,
-            $this->session,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $session
         );
     }
 }

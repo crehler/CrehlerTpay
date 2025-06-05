@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,21 +15,16 @@
 
 namespace Tpay\ShopwarePayment\Util;
 
-
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\Language\LanguageEntity;
 use Tpay\ShopwarePayment\Util\Payments\Payment;
 
 class TranslationsUtil
 {
-    /** @var EntityRepositoryInterface */
-    private $languageRepository;
-
-    public function __construct(EntityRepositoryInterface $languageRepository)
+    public function __construct(private readonly EntityRepository $languageRepository)
     {
-        $this->languageRepository = $languageRepository;
     }
 
     public function prepareTranslations(TpayPaymentsCollection $collection, Context $context): TpayPaymentsCollection
@@ -35,21 +33,10 @@ class TranslationsUtil
 
         /** @var Payment $payment */
         foreach ($collection as $payment) {
-          $payment->setTranslations($this->filterTranslations($payment->getTranslations(), $codes));
+            $payment->setTranslations($this->filterTranslations($payment->getTranslations(), $codes));
         }
 
         return $collection;
-    }
-
-    private function filterTranslations(array $translations, array $codes): array
-    {
-        foreach ($translations as $code => $value) {
-            if(!in_array($code, $codes, true)) {
-                unset($translations[$code]);
-            }
-        }
-
-        return $translations;
     }
 
     private function getAvailableTranslations(Context $context): array
@@ -67,5 +54,16 @@ class TranslationsUtil
         }
 
         return $codes;
+    }
+
+    private function filterTranslations(array $translations, array $codes): array
+    {
+        foreach ($translations as $code => $value) {
+            if (!in_array($code, $codes, true)) {
+                unset($translations[$code]);
+            }
+        }
+
+        return $translations;
     }
 }

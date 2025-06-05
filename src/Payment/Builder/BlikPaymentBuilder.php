@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,14 +15,13 @@
 
 namespace Tpay\ShopwarePayment\Payment\Builder;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
-use Shopware\Core\Framework\Adapter\Translation\Translator;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Adapter\Translation\AbstractTranslator;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,49 +33,66 @@ use tpayLibs\src\_class_tpay\Utilities\TException;
 
 class BlikPaymentBuilder extends AbstractPaymentBuilder implements BlikPaymentBuilderInterface
 {
-
-    public const BLIK_TRANSACTION_SESSION_KEY = 'blikTransaction';
-
-    /** @var SessionInterface  */
-    private $session;
+    final public const BLIK_TRANSACTION_SESSION_KEY = 'blikTransaction';
 
     public function __construct(
         ConfigServiceInterface $configService,
         LocaleProvider $localeProvider,
         TokenFactoryInterfaceV2 $tokenFactory,
         RouterInterface $router,
-        Translator $translator,
-        SessionInterface $session,
+        AbstractTranslator $translator,
         LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        EntityRepository $tpayPaymentTokenRepository,
+        private readonly ?SessionInterface $session,
     ) {
-        parent::__construct($configService, $localeProvider, $tokenFactory, $router, $translator, $logger, $tpayPaymentTokenRepository);
-        $this->session = $session;
+        parent::__construct(
+            $configService,
+            $localeProvider,
+            $tokenFactory,
+            $router,
+            $translator,
+            $logger,
+            $tpayPaymentTokenRepository
+        );
     }
 
     /**
      * @throws TException
      */
-    public function createBlikTransaction(SyncPaymentTransactionStruct $paymentTransactionStruct, SalesChannelContext $salesChannelContext, CustomerEntity $customer, string $blikCode)
-    {
-        if ($this->session->has(self::BLIK_TRANSACTION_SESSION_KEY)) {
-           $tpayTransaction = $this->session->get(self::BLIK_TRANSACTION_SESSION_KEY);
+    public function createBlikTransaction(
+        SyncPaymentTransactionStruct $paymentTransactionStruct,
+        SalesChannelContext $salesChannelContext,
+        CustomerEntity $customer,
+        string $blikCode
+    ) {
+        if ($this->session instanceof SessionInterface) {
+            if ($this->session->has(self::BLIK_TRANSACTION_SESSION_KEY)) {
+                $tpayTransaction = $this->session->get(self::BLIK_TRANSACTION_SESSION_KEY);
+            } else {
+                $tpayTransaction = $this->createTransaction($paymentTransactionStruct, $salesChannelContext, $customer);
+                $this->session->set(self::BLIK_TRANSACTION_SESSION_KEY, $tpayTransaction);
+            }
         } else {
             $tpayTransaction = $this->createTransaction($paymentTransactionStruct, $salesChannelContext, $customer);
-            $this->session->set(self::BLIK_TRANSACTION_SESSION_KEY, $tpayTransaction);
         }
-        $basicApi = $this->createBasicApi($salesChannelContext);
 
-        return $basicApi->blik($tpayTransaction['title'], $blikCode);
+        return $this->createBasicApi($salesChannelContext)->blik($tpayTransaction['title'], $blikCode);
     }
 
-    protected function getTpayTransactionConfig(SyncPaymentTransactionStruct $transaction, OrderEntity $order, CustomerEntity $customer, SalesChannelContext $salesChannelContext): TpayTransactionConfigStruct
-    {
-        $tpayTransactionConfig = parent::getTpayTransactionConfig($transaction, $order, $customer, $salesChannelContext);
+    protected function getTpayTransactionConfig(
+        SyncPaymentTransactionStruct $transaction,
+        OrderEntity $order,
+        CustomerEntity $customer,
+        SalesChannelContext $salesChannelContext
+    ): TpayTransactionConfigStruct {
+        $tpayTransactionConfig = parent::getTpayTransactionConfig(
+            $transaction,
+            $order,
+            $customer,
+            $salesChannelContext
+        );
         $tpayTransactionConfig->setGroup(Blik::ID);
 
         return $tpayTransactionConfig;
     }
-
-
 }

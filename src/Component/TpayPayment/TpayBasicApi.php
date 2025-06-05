@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,12 +15,10 @@
 
 namespace Tpay\ShopwarePayment\Component\TpayPayment;
 
-
 use tpayLibs\src\_class_tpay\PaymentBlik;
 
 class TpayBasicApi extends PaymentBlik
 {
-
     public function __construct(int $merchantId, string $merchantSecret, string $apiKey, string $apiPass)
     {
         $this->merchantId = $merchantId;

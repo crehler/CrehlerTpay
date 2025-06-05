@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2020 Tpay Krajowy Integrator Płatności S.A. <https://tpay.com/>
  *
@@ -12,7 +15,6 @@
 
 namespace Tpay\ShopwarePayment\Payment\Builder;
 
-
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -21,43 +23,33 @@ use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
 use Shopware\Core\Checkout\Payment\Cart\Token\TokenStruct;
 use Shopware\Core\Framework\Adapter\Translation\Translator;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicApi;
 use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
 use Tpay\ShopwarePayment\Config\TpayConfigStruct;
 use Tpay\ShopwarePayment\Config\TpayTransactionConfigStruct;
 use Tpay\ShopwarePayment\Util\Locale\LocaleProvider;
-use Tpay\ShopwarePayment\Component\TpayPayment\TpayBasicApi;
 use tpayLibs\src\_class_tpay\Utilities\TException;
 
 abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
 {
-
     /** @var ConfigServiceInterface */
     protected $configService;
-
-    /** @var EntityRepositoryInterface */
-    private $tpayPaymentTokenRepository;
-
     /** @var TpayConfigStruct */
     protected $config;
-
     /** @var LocaleProvider */
     protected $localeProvider;
-
     /** @var TokenFactoryInterfaceV2 */
     protected $tokenFactory;
-
     /** @var RouterInterface */
     protected $router;
-
     /** @var Translator */
     protected $translator;
-
     /** @var LoggerInterface */
     protected $logger;
 
@@ -68,7 +60,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         RouterInterface $router,
         Translator $translator,
         LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        private readonly EntityRepository $tpayPaymentTokenRepository
     ) {
         $this->configService = $configService;
         $this->localeProvider = $localeProvider;
@@ -76,7 +68,6 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         $this->router = $router;
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->tpayPaymentTokenRepository = $tpayPaymentTokenRepository;
     }
 
     /**
@@ -106,8 +97,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         $token = $this->handleToken($transaction);
 
         $tpayTransactionConfig
-            ->setAmount($order->getAmountTotal())
-
+            ->setAmount($transaction->getOrderTransaction()->getAmount()->getTotalPrice())
             ->setLanguage($this->localeProvider->getLocaleCodeFromContext($salesChannelContext->getContext()))
             ->setBuyer($customer)
             ->setResultUrl($this->assembleResultUrl($token, $salesChannelContext->getContext()))
@@ -118,18 +108,6 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         return $tpayTransactionConfig;
     }
 
-    final public function createBasicApi(?SalesChannelContext $salesChannelContext = null): TpayBasicApi
-    {
-        $config = $salesChannelContext ? $this->config ?? $this->configService->getConfigs($salesChannelContext->getSalesChannel()->getId()) : $this->config;
-
-        return new TpayBasicApi(
-            (int) $config->getMerchantID(),
-            $config->getMerchantSecret(),
-            $config->getMerchantTransactionApiKey(),
-            $config->getMerchantTransactionApiPassword()
-        );
-    }
-
     final public function handleToken(SyncPaymentTransactionStruct $transaction): string
     {
         $tokenStruct = new TokenStruct(
@@ -137,7 +115,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
             null,
             $transaction->getOrderTransaction()->getPaymentMethodId(),
             $transaction->getOrderTransaction()->getId(),
-           null,
+            null,
             259200, // 3 days
             null
         );
@@ -173,5 +151,17 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         $parameter = ['tokenId' => $id];
 
         return $this->router->generate('tpay.payment.return-url', $parameter, UrlGeneratorInterface::ABSOLUTE_URL);
+    }
+
+    final public function createBasicApi(?SalesChannelContext $salesChannelContext = null): TpayBasicApi
+    {
+        $config = $salesChannelContext ? $this->config ?? $this->configService->getConfigs($salesChannelContext->getSalesChannel()->getId()) : $this->config;
+
+        return new TpayBasicApi(
+            (int)$config->getMerchantID(),
+            $config->getMerchantSecret(),
+            $config->getMerchantTransactionApiKey(),
+            $config->getMerchantTransactionApiPassword()
+        );
     }
 }
