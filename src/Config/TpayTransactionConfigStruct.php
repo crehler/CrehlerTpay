@@ -71,6 +71,12 @@ class TpayTransactionConfigStruct extends Struct
     /** @var string */
     protected $country;
 
+    /** @var string */
+    protected $payer_ip;
+
+    /** @var string */
+    protected $payer_user_agent;
+
     /**
      * @return mixed
      */
@@ -281,7 +287,9 @@ class TpayTransactionConfigStruct extends Struct
 
     public function getTransactionConfig(): array
     {
-        return array_filter($this->getVars());
+        $config = array_filter($this->getVars());
+
+        return $config;
     }
 
     public function setBuyer(CustomerEntity $buyer): TpayTransactionConfigStruct
@@ -364,6 +372,28 @@ class TpayTransactionConfigStruct extends Struct
     public function setPhone(mixed $phone): TpayTransactionConfigStruct
     {
         $this->phone = $phone;
+        return $this;
+    }
+
+    public function getPayerIp(): string
+    {
+        return $this->payer_ip;
+    }
+
+    public function setPayerIp(string $payer_ip): TpayTransactionConfigStruct
+    {
+        $this->payer_ip = $payer_ip;
+        return $this;
+    }
+
+    public function getPayerUserAgent(): string
+    {
+        return $this->payer_user_agent;
+    }
+
+    public function setPayerUserAgent(string $payer_user_agent): TpayTransactionConfigStruct
+    {
+        $this->payer_user_agent = $payer_user_agent;
         return $this;
     }
 }

@@ -8,5 +8,9 @@
 - Added compatibility with Shopware 6.6
 # 3.0.1
 - Change Machine name to CrehlerTpay
-- # 3.0.2
+# 3.0.2
 - Fix submit button on confirm checkout page
+# 3.0.3
+- Update payment translations
+# 3.0.4
+- Add payer object to payment

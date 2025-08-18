@@ -49,7 +49,8 @@ class PaymentBuilderFactory
             $this->router,
             $this->translator,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $this->requestStack
         );
     }
 
@@ -62,7 +63,8 @@ class PaymentBuilderFactory
             $this->router,
             $this->translator,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $this->requestStack
         );
     }
 
@@ -79,6 +81,7 @@ class PaymentBuilderFactory
             $this->translator,
             $this->logger,
             $this->tpayPaymentTokenRepository,
+            $this->requestStack,
             $session
         );
     }
