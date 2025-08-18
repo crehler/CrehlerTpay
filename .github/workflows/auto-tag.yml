@@ -1,0 +1,45 @@
+name: AutoTag
+
+on:
+  workflow_call:
+    inputs:
+      default-branch:
+        description: 'Default branch of the repository'
+        required: false
+        type: string
+        default: master
+
+jobs:
+  build:
+    runs-on: ${{ vars.RUNS_ON }}
+    timeout-minutes: 1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Read and increment version in composer file
+        run: |
+          CURRENT_VERSION=$(jq -r '.version' composer.json)
+          echo "Current version is: $CURRENT_VERSION"
+          NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+          echo "New version: $NEW_VERSION"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          sed -i 's/"version": "'"$CURRENT_VERSION"'"/"version": "'"$NEW_VERSION"'"/' composer.json
+        shell: bash
+
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Commit updated version
+        run: |
+          git add composer.json
+          git commit -m "Updated composer version to: $NEW_VERSION"
+
+      - name: Create and push a Git tag
+        run: |
+          git tag -a $NEW_VERSION -m "Updated package version to: $NEW_VERSION"
+          git push origin ${{ inputs.default-branch }} --tags
+        env:
+          GITHUB_TOKEN: "${{ secrets.HANS_TOKEN }}"

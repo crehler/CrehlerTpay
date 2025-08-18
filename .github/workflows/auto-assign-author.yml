@@ -1,0 +1,14 @@
+name: Auto Author Assign
+
+on:
+  workflow_call:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-author:
+    runs-on: ${{ vars.RUNS_ON }}
+    timeout-minutes: 1
+    steps:
+      - uses: toshimaru/auto-author-assign@v2.1.0
