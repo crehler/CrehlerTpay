@@ -13,3 +13,7 @@
 # 2.0.7
 
 - Update payment translations
+
+# 2.0.8
+
+- Fix when running update plugin

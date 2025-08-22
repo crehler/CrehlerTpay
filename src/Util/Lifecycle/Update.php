@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Crehler\TpayShopwarePayment\Util\Lifecycle;
+namespace Tpay\ShopwarePayment\Util\Lifecycle;
 
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\Language\LanguageEntity;
-use Crehler\TpayShopwarePayment\Payment\BankTransferPaymentHandler;
+use Tpay\ShopwarePayment\Payment\BankTransferPaymentHandler;
 
 final class Update
 {

@@ -2,7 +2,7 @@
   "name": "tpay/shopware-payment",
   "description": "Tpay Payment for Shopware 6",
   "type": "shopware-platform-plugin",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "license": "MIT",
   "authors": [
     {
