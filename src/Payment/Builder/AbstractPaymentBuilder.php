@@ -24,6 +24,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Tpay\ShopwarePayment\Config\Exception\TpayConfigInvalidException;
@@ -61,6 +62,9 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
     /** @var LoggerInterface */
     protected $logger;
 
+    /** @var RequestStack */
+    private $requestStack;
+
     public function __construct(
         ConfigServiceInterface $configService,
         LocaleProvider $localeProvider,
@@ -68,7 +72,8 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         RouterInterface $router,
         Translator $translator,
         LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        EntityRepositoryInterface $tpayPaymentTokenRepository,
+        RequestStack $requestStack
     ) {
         $this->configService = $configService;
         $this->localeProvider = $localeProvider;
@@ -77,6 +82,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
         $this->translator = $translator;
         $this->logger = $logger;
         $this->tpayPaymentTokenRepository = $tpayPaymentTokenRepository;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -88,14 +94,12 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
 
         try {
             $this->config = $this->configService->getConfigs($salesChannelContext->getSalesChannel()->getId());
+            $tpayTransactionConfig = $this->getTpayTransactionConfig($transaction, $order, $customer, $salesChannelContext);
+            $basicApi = $this->createBasicApi();
         } catch (TpayConfigInvalidException $exception) {
             $this->logger->error('Tpay configuration is not valid:' . PHP_EOL . $exception->getMessage());
             throw $exception;
         }
-
-        $tpayTransactionConfig = $this->getTpayTransactionConfig($transaction, $order, $customer, $salesChannelContext);
-
-        $basicApi = $this->createBasicApi();
 
         return $basicApi->create($tpayTransactionConfig->getTransactionConfig());
     }
@@ -104,6 +108,7 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
     {
         $tpayTransactionConfig = new TpayTransactionConfigStruct();
         $token = $this->handleToken($transaction);
+        $request = $this->requestStack->getCurrentRequest();
 
         $tpayTransactionConfig
             ->setAmount($transaction->getOrderTransaction()->getAmount()->getTotalPrice())
@@ -112,7 +117,9 @@ abstract class AbstractPaymentBuilder implements PaymentBuilderInterface
             ->setResultUrl($this->assembleResultUrl($token, $salesChannelContext->getContext()))
             ->setReturnUrl($this->assembleReturnUrl($token, $salesChannelContext->getContext()))
             ->setDescription($this->translator->trans('tpay.config.transaction.description') . ' ' . $order->getOrderNumber())
-            ->setCrc($transaction->getOrderTransaction()->getId());
+            ->setCrc($transaction->getOrderTransaction()->getId())
+            ->setPayerUserAgent($request !== null ? $request->headers->get('User-Agent') : '')
+            ->setPayerIp($request !== null ? $request->getClientIp() : '');
 
         return $tpayTransactionConfig;
     }

@@ -35,6 +35,7 @@
             <argument type="service" id="session"/>
             <argument type="service" id="tpay_shopware_payment.util.logger"/>
             <argument type="service" id="tpay_payment_tokens.repository"/>
+            <argument type="service" id="request_stack"/>
         </service>
 
         <service id="Tpay\ShopwarePayment\Payment\Builder\CardPaymentBuilder">

@@ -6,3 +6,6 @@
 
 - Aktualisieren Sie den Namen der Zahlungsmethode und fügen Sie die Liste der versteckten Banken hinzu, wenn die
   Zahlungsmethode nicht ausgewählt ist.
+
+# 1.0.24
+- IP-Adresse und User-Agent des Zahlers zur Anfrage hinzufügen

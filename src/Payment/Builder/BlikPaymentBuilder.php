@@ -21,6 +21,7 @@ use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
 use Shopware\Core\Framework\Adapter\Translation\Translator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
@@ -45,9 +46,10 @@ class BlikPaymentBuilder extends AbstractPaymentBuilder implements BlikPaymentBu
         Translator $translator,
         SessionInterface $session,
         LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        EntityRepositoryInterface $tpayPaymentTokenRepository,
+        RequestStack $requestStack,
     ) {
-        parent::__construct($configService, $localeProvider, $tokenFactory, $router, $translator, $logger, $tpayPaymentTokenRepository);
+        parent::__construct($configService, $localeProvider, $tokenFactory, $router, $translator, $logger, $tpayPaymentTokenRepository, $requestStack);
         $this->session = $session;
     }
 

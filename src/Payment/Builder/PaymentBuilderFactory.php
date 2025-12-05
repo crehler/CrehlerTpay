@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
 use Shopware\Core\Framework\Adapter\Translation\Translator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
 use Tpay\ShopwarePayment\Config\Service\ConfigServiceInterface;
@@ -48,6 +49,9 @@ class PaymentBuilderFactory
     /** @var LoggerInterface */
     private $logger;
 
+    /** @var RequestStack */
+    private $requestStack;
+
     public function __construct(
         ConfigServiceInterface $configService,
         LocaleProvider $localeProvider,
@@ -56,7 +60,9 @@ class PaymentBuilderFactory
         Translator $translator,
         Session $session,
         LoggerInterface $logger,
-        EntityRepositoryInterface $tpayPaymentTokenRepository
+        EntityRepositoryInterface $tpayPaymentTokenRepository,
+        RequestStack $requestStack
+
     ) {
         $this->configService = $configService;
         $this->tokenFactory = $tokenFactory;
@@ -66,6 +72,7 @@ class PaymentBuilderFactory
         $this->session = $session;
         $this->logger = $logger;
         $this->tpayPaymentTokenRepository = $tpayPaymentTokenRepository;
+        $this->requestStack = $requestStack;
     }
 
     public function createCardBuilder(): PaymentBuilderInterface
@@ -77,7 +84,8 @@ class PaymentBuilderFactory
             $this->router,
             $this->translator,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $this->requestStack
         );
     }
 
@@ -90,7 +98,8 @@ class PaymentBuilderFactory
             $this->router,
             $this->translator,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $this->requestStack
         );
     }
 
@@ -104,7 +113,8 @@ class PaymentBuilderFactory
             $this->translator,
             $this->session,
             $this->logger,
-            $this->tpayPaymentTokenRepository
+            $this->tpayPaymentTokenRepository,
+            $this->requestStack
         );
     }
 }
