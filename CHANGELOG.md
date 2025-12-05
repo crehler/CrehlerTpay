@@ -5,3 +5,6 @@
 # 1.0.22
 
 - Update payment method name and add hiding bank list when payment method is not selected
+
+# 1.0.24
+- Add payerIp and payerUserAgent into request

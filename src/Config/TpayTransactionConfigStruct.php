@@ -67,6 +67,12 @@ class TpayTransactionConfigStruct extends Struct
     /** @var string */
     protected $country;
 
+    /** @var string */
+    protected $payer_ip;
+
+    /** @var string */
+    protected $payer_user_agent;
+
     /**
      * @return mixed
      */
@@ -378,6 +384,28 @@ class TpayTransactionConfigStruct extends Struct
         $this->country = $billingAddress->getCountry()->getTranslated()['name'];
         $this->phone = $this->getPhone();
 
+        return $this;
+    }
+
+    public function getPayerIp(): string
+    {
+        return $this->payer_ip;
+    }
+
+    public function setPayerIp(string $payer_ip): TpayTransactionConfigStruct
+    {
+        $this->payer_ip = $payer_ip;
+        return $this;
+    }
+
+    public function getPayerUserAgent(): string
+    {
+        return $this->payer_user_agent;
+    }
+
+    public function setPayerUserAgent(string $payer_user_agent): TpayTransactionConfigStruct
+    {
+        $this->payer_user_agent = $payer_user_agent;
         return $this;
     }
 }
