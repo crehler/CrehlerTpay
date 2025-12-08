@@ -21,11 +21,13 @@
 
                     <label for="tpayTos"
                            class="checkout-confirm-tpay-tos-label form-check-label">
-                        {{ termsPrefix }}
-                        <a target="_blank"
-                           href="{{ termsLinkUrl }}"
-                           title="{{ termsLinkText }}">{{ termsLinkText }}</a>
-                        {{ termsSuffix }}
+                        {% block page_checkout_confirm_tos_control_tpay_label_content %}
+                            {{ termsPrefix }}
+                            <a target="_blank"
+                               href="{{ termsLinkUrl }}"
+                               title="{{ termsLinkText }}">{{ termsLinkText }}</a>
+                            {{ termsSuffix }}
+                        {% endblock %}
                     </label>
                 {% endblock %}
             </div>
