@@ -6,7 +6,9 @@
             }
         },
         "checkout": {
-            "confirmTerms": "Akceptuję <a target=\"_blank\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Regulamin\">Regulamin</a> serwisu Tpay."
+            "confirmTermsPrefix": "Akceptuję",
+            "confirmTermsLinkText": "Regulamin",
+            "confirmTermsSuffix": "serwisu Tpay."
         },
         "blik": {
             "labelEnterBlikCode": "Wprowadź kod Blik:",

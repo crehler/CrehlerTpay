@@ -7,6 +7,7 @@
     <services>
         <service id="Crehler\TpayShopwarePayment\Subscriber\PagePaymentSearch">
             <argument type="service" id="Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListClient"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 

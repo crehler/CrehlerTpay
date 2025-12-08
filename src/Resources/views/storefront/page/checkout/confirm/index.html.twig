@@ -1,21 +1,36 @@
 {% sw_extends "@Storefront/storefront/page/checkout/confirm/index.html.twig" %}
 
 {% block page_checkout_confirm_tos_control %}
-    {% if 'TpayShopwarePayment' in context.paymentMethod.handlerIdentifier %}
-        <div class="form-check">
-            <input type="checkbox"
-                   class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
-                   required="required"
-                   id="tpayTos"
-                   form="confirmOrderForm"
-                   name="tpayTos"/>
+    {% block page_checkout_confirm_tos_control_tpay %}
+        {% if 'TpayShopwarePayment' in context.paymentMethod.handlerIdentifier %}
+            <div class="form-check">
+                {% block page_checkout_confirm_tos_control_tpay_input %}
+                    <input type="checkbox"
+                           class="checkout-confirm-tpay-tos-checkbox form-check-input{% if formViolations.getViolations('/tpayTos') is not empty %} is-invalid{% endif %}"
+                           required="required"
+                           id="tpayTos"
+                           form="confirmOrderForm"
+                           name="tpayTos"/>
+                {% endblock %}
 
-            <label for="tpayTos"
-                   class="checkout-confirm-tpay-tos-label form-check-label">
-                {{ "tpay.checkout.confirmTerms"|trans|raw }}
-            </label>
-        </div>
-    {% endif %}
+                {% block page_checkout_confirm_tos_control_tpay_label %}
+                    {% set termsPrefix = page.extensions.tpayConfig.termsPrefix ?: "tpay.checkout.confirmTermsPrefix"|trans %}
+                    {% set termsLinkText = page.extensions.tpayConfig.termsLinkText ?: "tpay.checkout.confirmTermsLinkText"|trans %}
+                    {% set termsLinkUrl = page.extensions.tpayConfig.termsLinkUrl ?: 'https://secure.tpay.com/regulamin.pdf' %}
+                    {% set termsSuffix = page.extensions.tpayConfig.termsSuffix ?: "tpay.checkout.confirmTermsSuffix"|trans %}
+
+                    <label for="tpayTos"
+                           class="checkout-confirm-tpay-tos-label form-check-label">
+                        {{ termsPrefix }}
+                        <a target="_blank"
+                           href="{{ termsLinkUrl }}"
+                           title="{{ termsLinkText }}">{{ termsLinkText }}</a>
+                        {{ termsSuffix }}
+                    </label>
+                {% endblock %}
+            </div>
+        {% endif %}
+    {% endblock %}
 
     {{ parent() }}
 {% endblock %}

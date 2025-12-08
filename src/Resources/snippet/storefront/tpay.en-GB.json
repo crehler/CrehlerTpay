@@ -6,7 +6,9 @@
             }
         },
         "checkout": {
-            "confirmTerms": "I accept <a data-bs-toggle=\"modal\" data-url=\"https://secure.tpay.com/regulamin.pdf\" href=\"https://secure.tpay.com/regulamin.pdf\" title=\"Terms and Conditions\">Terms and Conditions</a> of Tpay."
+            "confirmTermsPrefix": "I accept",
+            "confirmTermsLinkText": "Terms and Conditions",
+            "confirmTermsSuffix": "of Tpay."
         },
         "blik": {
             "labelEnterBlikCode": "Enter BLIK code:",

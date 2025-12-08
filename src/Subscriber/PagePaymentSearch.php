@@ -15,18 +15,22 @@ declare(strict_types=1);
 
 namespace Crehler\TpayShopwarePayment\Subscriber;
 
+use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
+use Crehler\TpayShopwarePayment\Util\Payments\BankTransfer;
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
+use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Crehler\TpayShopwarePayment\Component\TpayPayment\BankList\TpayBankListInterface;
-use Crehler\TpayShopwarePayment\Util\Payments\BankTransfer;
 
 class PagePaymentSearch implements EventSubscriberInterface
 {
-    public function __construct(private readonly TpayBankListInterface $bankListService)
-    {
+    public function __construct(
+        private readonly TpayBankListInterface $bankListService,
+        private readonly SystemConfigService $systemConfigService,
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -42,6 +46,7 @@ class PagePaymentSearch implements EventSubscriberInterface
         $payments = $event->getPage()->getPaymentMethods();
 
         $this->addBankListExtension($payments, $event->getSalesChannelContext());
+        $this->addTpayConfigExtension($event);
     }
 
     public function addBankListExtension(PaymentMethodCollection $payments, SalesChannelContext $salesChannelContext): void
@@ -60,5 +65,32 @@ class PagePaymentSearch implements EventSubscriberInterface
         $payments = $event->getPage()->getPaymentMethods();
 
         $this->addBankListExtension($payments, $event->getSalesChannelContext());
+        $this->addTpayConfigExtension($event);
+    }
+
+    private function addTpayConfigExtension(CheckoutConfirmPageLoadedEvent|AccountEditOrderPageLoadedEvent $event): void
+    {
+        $salesChannelId = $event->getSalesChannelContext()->getSalesChannelId();
+
+        $config = new ArrayStruct([
+            'termsPrefix' => $this->systemConfigService->get(
+                'CrehlerTpayShopwarePayment.config.termsPrefix',
+                $salesChannelId
+            ),
+            'termsLinkText' => $this->systemConfigService->get(
+                'CrehlerTpayShopwarePayment.config.termsLinkText',
+                $salesChannelId
+            ),
+            'termsLinkUrl' => $this->systemConfigService->get(
+                'CrehlerTpayShopwarePayment.config.termsLinkUrl',
+                $salesChannelId
+            ),
+            'termsSuffix' => $this->systemConfigService->get(
+                'CrehlerTpayShopwarePayment.config.termsSuffix',
+                $salesChannelId
+            ),
+        ]);
+
+        $event->getPage()->addExtension('tpayConfig', $config);
     }
 }

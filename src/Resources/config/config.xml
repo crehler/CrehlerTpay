@@ -110,4 +110,50 @@
             <defaultValue>false</defaultValue>
         </input-field>
     </card>
+
+    <card>
+        <title>Terms configuration</title>
+        <title lang="de-DE">Konfiguration der Bedingungen</title>
+        <title lang="pl-PL">Konfiguracja warunków</title>
+
+        <input-field type="text">
+            <name>termsPrefix</name>
+            <label>Text before link</label>
+            <label lang="de-DE">Text vor dem Link</label>
+            <label lang="pl-PL">Tekst przed linkiem</label>
+            <helpText>Leave empty to use default translation (e.g. "I accept")</helpText>
+            <helpText lang="de-DE">Leer lassen, um die Standardübersetzung zu verwenden (z.B. "Ich akzeptiere die")</helpText>
+            <helpText lang="pl-PL">Pozostaw puste, aby użyć domyślnego tłumaczenia (np. "Akceptuję")</helpText>
+        </input-field>
+
+        <input-field type="text">
+            <name>termsLinkText</name>
+            <label>Terms link text</label>
+            <label lang="de-DE">Text des Links zu den Bedingungen</label>
+            <label lang="pl-PL">Tekst linku do regulaminu</label>
+            <helpText>Leave empty to use default translation (e.g. "Terms and Conditions")</helpText>
+            <helpText lang="de-DE">Leer lassen, um die Standardübersetzung zu verwenden (z.B. "Bestimmungen")</helpText>
+            <helpText lang="pl-PL">Pozostaw puste, aby użyć domyślnego tłumaczenia (np. "Regulamin")</helpText>
+        </input-field>
+
+        <input-field type="url">
+            <name>termsLinkUrl</name>
+            <label>Terms link URL</label>
+            <label lang="de-DE">URL des Links zu den Bedingungen</label>
+            <label lang="pl-PL">URL linku do regulaminu</label>
+            <helpText>Leave empty to use default Tpay terms URL (https://secure.tpay.com/regulamin.pdf)</helpText>
+            <helpText lang="de-DE">Leer lassen, um die Standard-Tpay-Bedingungen-URL zu verwenden</helpText>
+            <helpText lang="pl-PL">Pozostaw puste, aby użyć domyślnego URL regulaminu Tpay</helpText>
+        </input-field>
+
+        <input-field type="text">
+            <name>termsSuffix</name>
+            <label>Text after link</label>
+            <label lang="de-DE">Text nach dem Link</label>
+            <label lang="pl-PL">Tekst po linku</label>
+            <helpText>Leave empty to use default translation (e.g. "of Tpay.")</helpText>
+            <helpText lang="de-DE">Leer lassen, um die Standardübersetzung zu verwenden (z.B. "Tpay.")</helpText>
+            <helpText lang="pl-PL">Pozostaw puste, aby użyć domyślnego tłumaczenia (np. "serwisu Tpay.")</helpText>
+        </input-field>
+    </card>
 </config>

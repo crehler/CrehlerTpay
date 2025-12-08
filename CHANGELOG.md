@@ -14,3 +14,5 @@
 - Update payment translations
 # 3.0.4
 - Add payer object to payment
+# 3.0.5
+- Add customizable terms and condition in plugin settings
